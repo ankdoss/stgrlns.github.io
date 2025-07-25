@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Academy - Learn & Practice</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 300% 300%;
+            animation: gradient 3s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .video-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+        
+        .video-section h3 {
+            color: #ff6b6b;
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: #1a1a2e;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            position: relative;
+        }
+        
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 107, 107, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .play-button:hover {
+            background: rgba(255, 107, 107, 1);
+            transform: scale(1.1);
+        }
+        
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+        
+        .video-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+        
+        .video-description {
+            font-size: 13px;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+        
+        .video-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+        }
+        
+        .video-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .video-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #4ecdc4;
+        }
+        
+        .video-item.active {
+            background: rgba(78, 205, 196, 0.2);
+            border-color: #4ecdc4;
+        }
+        
+        .video-item-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #96ceb4;
+            margin-bottom: 4px;
+        }
+        
+        .video-item-duration {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .chart-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 500px;
+        }
+        
+        #stockChart {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: #1a1a2e;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .trading-panel {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+        
+        .trading-panel h3 {
+            color: #4ecdc4;
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #96ceb4;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+        
+        .current-price {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .current-price .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .current-price .time {
+            font-size: 14px;
+            color: #96ceb4;
+            margin-top: 5px;
+        }
+        
+        .invest-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .invest-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .invest-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .trade-status {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .pnl {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .profit {
+            color: #4ecdc4;
+        }
+        
+        .loss {
+            color: #ff6b6b;
+        }
+        
+        .neutral {
+            color: #ffd93d;
+        }
+        
+        .game-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #4ecdc4;
+        }
+        
+        .pattern-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .pattern-info h4 {
+            color: #4ecdc4;
+            margin-top: 0;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            pointer-events: none;
+            font-size: 12px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        
+        .trade-summary {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        
+        .simulation-speed {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .speed-btn {
+            padding: 8px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .speed-btn.active {
+            background: #4ecdc4;
+            border-color: #4ecdc4;
+        }
+        
+        .final-result {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #4ecdc4;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            z-index: 10000;
+            min-width: 400px;
+            display: none;
+        }
+        
+        .result-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .result-pnl {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .progress-indicator {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .progress-step {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 0 5px;
+            line-height: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-step.completed {
+            background: #4ecdc4;
+            border-color: #4ecdc4;
+        }
+        
+        .progress-step.active {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            z-index: 20000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .video-modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+        
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close-modal {
+            background: #ff6b6b;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .video-iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 10px;
+            background: #000;
+            object-fit: contain;
+        }
+
+        @media (max-width: 1400px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .video-section {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Trading Academy - Learn & Practice</h1>
+            <p style="font-size: 1.2em; opacity: 0.9;">Watch videos to learn, then practice on the live chart!</p>
+        </div>
+        
+        <div class="progress-indicator">
+            <span class="progress-step completed">1</span>
+            <span style="color: #96ceb4;">Watch</span>
+            <span class="progress-step active">2</span>
+            <span style="color: #96ceb4;">Practice</span>
+            <span class="progress-step">3</span>
+            <span style="color: #96ceb4;">Master</span>
+        </div>
+        
+        <div class="main-layout">
+            <div class="video-section">
+                <h3>📹 Learn Trading Patterns</h3>
+                
+                <div class="video-container" onclick="openVideoModal()">
+                    <div class="video-placeholder">
+                        <div class="play-button"></div>
+                    </div>
+                </div>
+                
+                <div class="video-title" id="currentVideoTitle">Double Bottom Pattern Basics</div>
+                <div class="video-description" id="currentVideoDescription">
+                    Learn to identify the double bottom reversal pattern, one of the most reliable bullish patterns in technical analysis. This video covers pattern recognition, volume confirmation, and entry/exit strategies.
+                </div>
+                
+                <div class="video-list" id="videoList">
+                    <!-- Video items will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="chart-section">
+                <div class="chart-wrapper">
+                    <canvas id="stockChart" width="900" height="500"></canvas>
+                    <div id="tooltip" class="tooltip"></div>
+                </div>
+            </div>
+            
+            <div class="trading-panel">
+                <h3>🎯 Trading Setup</h3>
+                
+                <div class="current-price">
+                    <div class="price" id="currentPrice">₹1204.65</div>
+                    <div class="time" id="currentTime">12:00 PM - Ready to Trade</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="investment">Investment Amount (₹)</label>
+                    <input type="number" id="investment" placeholder="Enter amount (e.g., 50000)" min="1000" max="1000000" step="1000" value="50000">
+                </div>
+                
+                <div class="input-group">
+                    <label for="entryPrice">Entry Price (₹)</label>
+                    <input type="number" id="entryPrice" placeholder="Entry price" step="0.01" value="1240">
+                </div>
+                
+                <div class="input-group">
+                    <label for="targetPrice">Target Price (₹)</label>
+                    <input type="number" id="targetPrice" placeholder="Target price" step="0.01" value="1278">
+                </div>
+                
+                <div class="input-group">
+                    <label for="stopLoss">Stop Loss (₹)</label>
+                    <input type="number" id="stopLoss" placeholder="Stop loss price" step="0.01" value="1200">
+                </div>
+                
+                <button class="invest-btn" id="investBtn" onclick="startTrade()">
+                    🚀 INVEST & START SIMULATION
+                </button>
+                
+                <div class="simulation-speed" id="speedControls" style="display: none;">
+                    <div class="speed-btn active" onclick="setSpeed(500)">1x</div>
+                    <div class="speed-btn" onclick="setSpeed(250)">2x</div>
+                    <div class="speed-btn" onclick="setSpeed(100)">5x</div>
+                    <div class="speed-btn" onclick="setSpeed(50)">10x</div>
+                </div>
+                
+                <div class="trade-status" id="tradeStatus" style="display: none;">
+                    <h4>Trade Status</h4>
+                    <div class="pnl" id="pnlDisplay">₹0.00</div>
+                    <div id="statusText">Position: Waiting for Entry</div>
+                    
+                    <div class="trade-summary">
+                        <div class="summary-row">
+                            <span>Shares:</span>
+                            <span id="shareCount">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Entry:</span>
+                            <span id="entryDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Current:</span>
+                            <span id="currentPriceDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Target:</span>
+                            <span id="targetDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Stop Loss:</span>
+                            <span id="stopLossDisplay">₹0.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-controls">
+                    <button class="control-btn" onclick="resetGame()">🔄 Reset</button>
+                    <button class="control-btn" onclick="pauseSimulation()" id="pauseBtn" style="display: none;">⏸️ Pause</button>
+                </div>
+                
+                <div class="pattern-info">
+                    <h4>📈 Pattern Analysis</h4>
+                    <p><strong>Double Bottom Identified:</strong></p>
+                    <p>• First Bottom: ₹1201.98 (10:30)</p>
+                    <p>• Second Bottom: ₹1204.65 (11:45)</p>
+                    <p>• Neckline: ₹1239.76</p>
+                    <p>• Suggested Target: ₹1277.54</p>
+                    <p style="color: #ffd93d; margin-top: 15px;"><strong>💡 Tip:</strong> Consider buying above neckline break with volume confirmation!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="final-result" id="finalResult">
+            <div class="result-title" id="resultTitle">Trade Complete!</div>
+            <div class="result-pnl" id="resultPnL">₹0.00</div>
+            <div id="resultDetails"></div>
+            <button class="control-btn" onclick="closeResult()" style="margin-top: 20px; width: 200px;">Continue</button>
+        </div>
+        
+        <div class="video-modal" id="videoModal">
+            <div class="video-modal-content">
+                <div class="video-modal-header">
+                    <h3 id="modalVideoTitle">Video Title</h3>
+                    <button class="close-modal" onclick="closeVideoModal()">✕ Close</button>
+                </div>
+                <div id="videoPlayer">
+                    <div class="video-iframe" style="display: flex; align-items: center; justify-content: center; color: #96ceb4;">
+                        🎬 Video player will be embedded here
+                        <br><br>
+                        <small>In a real implementation, you would embed actual video content using:<br>
+                        • YouTube iframe<br>
+                        • Vimeo player<br>
+                        • Custom video player<br>
+                        • Educational platform integration</small>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <h4>Key Takeaways:</h4>
+                    <div id="videoTakeaways">
+                        <p>• Identify double bottom pattern formation</p>
+                        <p>• Wait for neckline breakout with volume</p>
+                        <p>• Set proper stop loss below second bottom</p>
+                        <p>• Calculate target using pattern height</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Video library data with your CDN content
+        const videoLibrary = [
+            {
+                id: 'double-bottom-basics',
+                title: 'Double Bottom Pattern Strategy',
+                duration: '8:45',
+                description: 'Learn the double bottom pattern strategy and how to identify this powerful reversal pattern in the markets. This comprehensive tutorial covers entry points, stop losses, and profit targets.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4', // Replace with your CDN URL
+                posterImage: 'https://your-cdn.com/thumbnails/double-bottom-thumb.jpg', // Optional poster image
+                takeaways: [
+                    'Identify double bottom pattern formation',
+                    'Wait for neckline breakout confirmation',
+                    'Set proper stop loss below second bottom',
+                    'Calculate target using pattern height measurement'
+                ]
+            },
+            {
+                id: 'technical-analysis-basics',
+                title: 'Technical Analysis Fundamentals',
+                duration: '12:30',
+                description: 'Master the fundamentals of technical analysis including chart patterns, trend analysis, and key support/resistance levels. Essential knowledge for any trader.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4', // Replace with your CDN URL
+                posterImage: 'https://your-cdn.com/thumbnails/technical-analysis-thumb.jpg', // Optional poster image
+                takeaways: [
+                    'Understand chart pattern fundamentals',
+                    'Identify trend directions and reversals',
+                    'Recognize key support and resistance levels',
+                    'Apply technical analysis in real trading'
+                ]
+            },
+            {
+                id: 'advanced-trading-concepts',
+                title: 'Advanced Trading Concepts',
+                duration: '15:20',
+                description: 'Dive deep into advanced trading concepts and strategies. Learn professional techniques used by successful traders to maximize profits and minimize risks.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4', // Replace with your CDN URL
+                posterImage: 'https://your-cdn.com/thumbnails/advanced-trading-thumb.jpg', // Optional poster image
+                takeaways: [
+                    'Master advanced trading strategies',
+                    'Understand professional risk management',
+                    'Learn market psychology principles',
+                    'Implement systematic trading approaches'
+                ]
+            }
+        ];
+
+        let currentVideoIndex = 0;
+
+        // Stock data (same as before)
+        const stockData = [
+            { time: "9:15", open: 1250, high: 1250.98, low: 1236.97, close: 1239.6, volume: 54903 },
+            { time: "9:30", open: 1239.6, high: 1242.56, low: 1230.71, close: 1232.76, volume: 53924 },
+            { time: "9:45", open: 1232.76, high: 1238.42, low: 1217.61, close: 1221.77, volume: 54790 },
+            { time: "10:00", open: 1221.77, high: 1222.52, low: 1209.73, close: 1213.04, volume: 62966 },
+            { time: "10:15", open: 1213.04, high: 1219.57, low: 1203.33, close: 1205.49, volume: 58322 },
+            { time: "10:30", open: 1205.49, high: 1207.83, low: 1201.98, close: 1204.83, volume: 66738 },
+            { time: "10:45", open: 1204.83, high: 1223.81, low: 1202.67, close: 1220.91, volume: 43629 },
+            { time: "11:00", open: 1220.91, high: 1239.76, low: 1218.97, close: 1233.8, volume: 43717 },
+            { time: "11:15", open: 1233.8, high: 1234.69, low: 1213.65, close: 1218.32, volume: 60344 },
+            { time: "11:30", open: 1218.32, high: 1220.54, low: 1205.08, close: 1206.97, volume: 58751 },
+            { time: "11:45", open: 1206.97, high: 1207.62, low: 1204.65, close: 1204.65, volume: 57610 },
+            { time: "12:00", open: 1204.65, high: 1218.35, low: 1203.61, close: 1216.44, volume: 68853 },
+            { time: "12:15", open: 1216.44, high: 1224.99, low: 1215.07, close: 1221.15, volume: 61747 },
+            { time: "12:30", open: 1221.15, high: 1231.96, low: 1219.11, close: 1225.12, volume: 36100 },
+            { time: "12:45", open: 1225.12, high: 1234.87, low: 1222.52, close: 1230.26, volume: 41832 },
+            { time: "13:00", open: 1230.26, high: 1238.46, low: 1229.67, close: 1236.83, volume: 40336 },
+            { time: "13:15", open: 1236.83, high: 1242, low: 1236.24, close: 1241.65, volume: 42236 },
+            { time: "13:30", open: 1241.65, high: 1249.59, low: 1239.94, close: 1249.56, volume: 42337 },
+            { time: "13:45", open: 1249.56, high: 1265.81, low: 1248, close: 1256.39, volume: 49154 },
+            { time: "14:00", open: 1256.39, high: 1267.37, low: 1256.22, close: 1259.76, volume: 44939 },
+            { time: "14:15", open: 1259.76, high: 1271.87, low: 1258.11, close: 1271.37, volume: 40052 },
+            { time: "14:30", open: 1271.37, high: 1280.92, low: 1270.45, close: 1274.96, volume: 44626 },
+            { time: "14:45", open: 1274.96, high: 1286.92, low: 1273.95, close: 1279.45, volume: 42592 },
+            { time: "15:00", open: 1279.45, high: 1290.65, low: 1276.55, close: 1284.57, volume: 40352 },
+            { time: "15:15", open: 1284.57, high: 1294.56, low: 1283.67, close: 1294.08, volume: 36461 },
+            { time: "15:30", open: 1294.08, high: 1301.58, low: 1293.93, close: 1295.08, volume: 39237 }
+        ];
+
+        // Game state
+        let gameState = {
+            currentCandleIndex: 11, // Start at 12:00 PM (index 11)
+            investment: 0,
+            entryPrice: 0,
+            targetPrice: 0,
+            stopLoss: 0,
+            shares: 0,
+            isTrading: false,
+            isPositionOpen: false,
+            finalPnL: 0,
+            simulationSpeed: 500,
+            isPaused: false,
+            tradeExecuted: false,
+            exitReason: '',
+            intervalId: null,
+            tradeEndIndex: -1
+        };
+
+        // Chart setup
+        const canvas = document.getElementById('stockChart');
+        const ctx = canvas.getContext('2d');
+        const tooltip = document.getElementById('tooltip');
+        
+        // Chart dimensions and padding
+        const padding = { top: 40, right: 80, bottom: 60, left: 80 };
+        const chartWidth = canvas.width - padding.left - padding.right;
+        const chartHeight = canvas.height - padding.top - padding.bottom;
+        
+        // Price range
+        const minPrice = 1190;
+        const maxPrice = 1310;
+        const priceRange = maxPrice - minPrice;
+        
+        // Key levels
+        const necklineLevel = 1239.76;
+        const targetLevel = 1277.54;
+        
+        // Video functions
+        function populateVideoList() {
+            const videoList = document.getElementById('videoList');
+            videoList.innerHTML = '';
+            
+            videoLibrary.forEach((video, index) => {
+                const videoItem = document.createElement('div');
+                videoItem.className = `video-item ${index === currentVideoIndex ? 'active' : ''}`;
+                videoItem.onclick = () => selectVideo(index);
+                
+                videoItem.innerHTML = `
+                    <div class="video-item-title">${video.title}</div>
+                    <div class="video-item-duration">${video.duration}</div>
+                `;
+                
+                videoList.appendChild(videoItem);
+            });
+        }
+        
+        function selectVideo(index) {
+            currentVideoIndex = index;
+            const video = videoLibrary[index];
+            
+            document.getElementById('currentVideoTitle').textContent = video.title;
+            document.getElementById('currentVideoDescription').textContent = video.description;
+            
+            // Update active video in list
+            document.querySelectorAll('.video-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+        }
+        
+        function openVideoModal() {
+            const video = videoLibrary[currentVideoIndex];
+            const modal = document.getElementById('videoModal');
+            
+            document.getElementById('modalVideoTitle').textContent = video.title;
+            
+            // Embed HTML5 video player with your CDN content
+            document.getElementById('videoPlayer').innerHTML = `
+                <video 
+                    class="video-iframe" 
+                    controls 
+                    preload="metadata"
+                    ${video.posterImage ? `poster="${video.posterImage}"` : ''}
+                    style="width: 100%; height: 400px; border-radius: 10px; background: #000;">
+                    <source src="${video.videoUrl}" type="video/mp4">
+                    <p style="color: #ff6b6b; text-align: center; padding: 20px;">
+                        Your browser doesn't support HTML5 video. 
+                        <a href="${video.videoUrl}" style="color: #4ecdc4;">Download the video</a> instead.
+                    </p>
+                </video>
+            `;
+            
+            // Update takeaways
+            const takeawaysHtml = video.takeaways.map(takeaway => `<p>• ${takeaway}</p>`).join('');
+            document.getElementById('videoTakeaways').innerHTML = takeawaysHtml;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            modal.style.display = 'none';
+            
+            // Stop the video by pausing and clearing the content
+            const videoElement = document.querySelector('#videoPlayer video');
+            if (videoElement) {
+                videoElement.pause();
+                videoElement.currentTime = 0;
+            }
+            
+            // Clear the video player content after a short delay
+            setTimeout(() => {
+                document.getElementById('videoPlayer').innerHTML = '';
+            }, 100);
+        }
+        
+        // Utility functions
+        function priceToY(price) {
+            return padding.top + (maxPrice - price) / priceRange * chartHeight;
+        }
+        
+        function indexToX(index) {
+            return padding.left + (index / (stockData.length - 1)) * chartWidth;
+        }
+        
+        function drawCandlestick(ctx, x, data, width = 8) {
+            const openY = priceToY(data.open);
+            const closeY = priceToY(data.close);
+            const highY = priceToY(data.high);
+            const lowY = priceToY(data.low);
+            
+            const isBullish = data.close >= data.open;
+            const bodyTop = Math.min(openY, closeY);
+            const bodyBottom = Math.max(openY, closeY);
+            const bodyHeight = Math.abs(closeY - openY);
+            
+            // Draw wick
+            ctx.strokeStyle = isBullish ? '#4ecdc4' : '#ff6b6b';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x, highY);
+            ctx.lineTo(x, lowY);
+            ctx.stroke();
+            
+            // Draw body
+            ctx.fillStyle = isBullish ? '#4ecdc4' : '#ff6b6b';
+            if (bodyHeight < 3) {
+                // Doji - draw a line
+                ctx.strokeStyle = isBullish ? '#4ecdc4' : '#ff6b6b';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(x - width/2, openY);
+                ctx.lineTo(x + width/2, openY);
+                ctx.stroke();
+            } else {
+                ctx.fillRect(x - width/2, bodyTop, width, bodyHeight);
+            }
+        }
+        
+        function drawGrid() {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Horizontal grid lines
+            const priceStep = 20;
+            for (let price = Math.ceil(minPrice / priceStep) * priceStep; price <= maxPrice; price += priceStep) {
+                const y = priceToY(price);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(padding.left + chartWidth, y);
+                ctx.stroke();
+                
+                // Price labels
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '11px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText('₹' + price, padding.left - 10, y + 4);
+            }
+            
+            // Vertical grid lines
+            for (let i = 0; i < stockData.length; i += 3) {
+                const x = indexToX(i);
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, padding.top + chartHeight);
+                ctx.stroke();
+                
+                // Time labels
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(stockData[i].time, x, padding.top + chartHeight + 20);
+            }
+        }
+        
+        function drawKeyLevels() {
+            // Neckline
+            ctx.strokeStyle = '#ffd93d';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([8, 4]);
+            const necklineY = priceToY(necklineLevel);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, necklineY);
+            ctx.lineTo(padding.left + chartWidth, necklineY);
+            ctx.stroke();
+            
+            // Target level
+            ctx.strokeStyle = '#ff9ff3';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([4, 4]);
+            const targetY = priceToY(targetLevel);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, targetY);
+            ctx.lineTo(padding.left + chartWidth, targetY);
+            ctx.stroke();
+            
+            ctx.setLineDash([]); // Reset line dash
+            
+            // Draw trade levels if position is open
+            if (gameState.isPositionOpen) {
+                // Entry price
+                ctx.strokeStyle = '#96ceb4';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([2, 2]);
+                const entryY = priceToY(gameState.entryPrice);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, entryY);
+                ctx.lineTo(padding.left + chartWidth, entryY);
+                ctx.stroke();
+                
+                // Target price
+                ctx.strokeStyle = '#4ecdc4';
+                const targetY = priceToY(gameState.targetPrice);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, targetY);
+                ctx.lineTo(padding.left + chartWidth, targetY);
+                ctx.stroke();
+                
+                // Stop loss
+                ctx.strokeStyle = '#ff6b6b';
+                const stopY = priceToY(gameState.stopLoss);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, stopY);
+                ctx.lineTo(padding.left + chartWidth, stopY);
+                ctx.stroke();
+                
+                ctx.setLineDash([]);
+            }
+            
+            // Mark double bottom points
+            ctx.fillStyle = '#4ecdc4';
+            ctx.font = 'bold 12px Arial';
+            ctx.textAlign = 'center';
+            
+            // First bottom at index 5 (10:30)
+            const firstBottomX = indexToX(5);
+            const firstBottomY = priceToY(1201.98);
+            ctx.fillText('1st Bottom', firstBottomX, firstBottomY + 20);
+            
+            // Second bottom at index 10 (11:45)
+            const secondBottomX = indexToX(10);
+            const secondBottomY = priceToY(1204.65);
+            ctx.fillText('2nd Bottom', secondBottomX, secondBottomY + 20);
+        }
+        
+        function drawChart() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            drawGrid();
+            
+            // Draw key levels
+            drawKeyLevels();
+            
+            // Draw candlesticks up to current index
+            for (let i = 0; i <= gameState.currentCandleIndex; i++) {
+                const data = stockData[i];
+                const x = indexToX(i);
+                drawCandlestick(ctx, x, data);
+            }
+            
+            // Highlight current candle if trading
+            if (gameState.isTrading && gameState.currentCandleIndex < stockData.length - 1) {
+                const currentX = indexToX(gameState.currentCandleIndex);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.fillRect(currentX - 10, padding.top, 20, chartHeight);
+            }
+            
+            // Draw title
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('Double Bottom Pattern - Trading Simulation', canvas.width / 2, 25);
+        }
+        
+        function startTrade() {
+            // Validate inputs
+            const investment = parseFloat(document.getElementById('investment').value);
+            const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+            const targetPrice = parseFloat(document.getElementById('targetPrice').value);
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+            
+            if (!investment || investment < 1000) {
+                alert('Please enter an investment amount of at least ₹1,000');
+                return;
+            }
+            
+            if (!entryPrice || !targetPrice || !stopLoss) {
+                alert('Please fill in all trading parameters');
+                return;
+            }
+            
+            if (targetPrice <= entryPrice) {
+                alert('Target price must be higher than entry price');
+                return;
+            }
+            
+            if (stopLoss >= entryPrice) {
+                alert('Stop loss must be lower than entry price');
+                return;
+            }
+            
+            // Set up trade
+            gameState.investment = investment;
+            gameState.entryPrice = entryPrice;
+            gameState.targetPrice = targetPrice;
+            gameState.stopLoss = stopLoss;
+            gameState.shares = Math.floor(investment / entryPrice);
+            gameState.isTrading = true;
+            gameState.isPositionOpen = false;
+            gameState.tradeExecuted = false;
+            gameState.currentCandleIndex = 11; // Reset to 12:00 PM
+            
+            // Update UI
+            document.getElementById('investBtn').disabled = true;
+            document.getElementById('tradeStatus').style.display = 'block';
+            document.getElementById('speedControls').style.display = 'flex';
+            document.getElementById('pauseBtn').style.display = 'block';
+            
+            updateTradeDisplay();
+            
+            // Start simulation
+            startSimulation();
+        }
+        
+        function startSimulation() {
+            if (gameState.intervalId) {
+                clearInterval(gameState.intervalId);
+            }
+            
+            gameState.intervalId = setInterval(() => {
+                if (gameState.isPaused) return;
+                
+                gameState.currentCandleIndex++;
+                
+                if (gameState.currentCandleIndex >= stockData.length) {
+                    endSimulation();
+                    return;
+                }
+                
+                const currentCandle = stockData[gameState.currentCandleIndex];
+                updateCurrentPrice(currentCandle.close, currentCandle.time);
+                
+                // Check for trade execution
+                if (!gameState.tradeExecuted && currentCandle.high >= gameState.entryPrice) {
+                    executeEntry(currentCandle);
+                }
+                
+                // Check for exit conditions if position is open
+                if (gameState.isPositionOpen) {
+                    checkExitConditions(currentCandle);
+                }
+                
+                drawChart();
+                updateTradeDisplay();
+                
+            }, gameState.simulationSpeed);
+        }
+        
+        function executeEntry(candle) {
+            gameState.tradeExecuted = true;
+            gameState.isPositionOpen = true;
+            
+            // Use the exact entry price or the candle's open if it gapped up
+            const actualEntry = Math.max(gameState.entryPrice, candle.open);
+            gameState.shares = Math.floor(gameState.investment / actualEntry);
+            gameState.entryPrice = actualEntry;
+            
+            updateTradeDisplay();
+        }
+        
+        function checkExitConditions(candle) {
+            let exitPrice = 0;
+            let reason = '';
+            
+            // Check stop loss
+            if (candle.low <= gameState.stopLoss) {
+                exitPrice = gameState.stopLoss;
+                reason = 'Stop Loss Hit';
+            }
+            // Check target
+            else if (candle.high >= gameState.targetPrice) {
+                exitPrice = gameState.targetPrice;
+                reason = 'Target Achieved';
+            }
+            
+            if (exitPrice > 0) {
+                executeExit(exitPrice, reason);
+            }
+        }
+        
+        function executeExit(exitPrice, reason) {
+            gameState.isPositionOpen = false;
+            gameState.finalPnL = (exitPrice - gameState.entryPrice) * gameState.shares;
+            gameState.exitReason = reason;
+            gameState.tradeEndIndex = gameState.currentCandleIndex;
+            
+            // Continue simulation to show rest of the chart
+            updateTradeDisplay();
+        }
+        
+        function endSimulation() {
+            if (gameState.intervalId) {
+                clearInterval(gameState.intervalId);
+                gameState.intervalId = null;
+            }
+            
+            // If position is still open, close at current price
+            if (gameState.isPositionOpen) {
+                const currentCandle = stockData[stockData.length - 1];
+                gameState.finalPnL = (currentCandle.close - gameState.entryPrice) * gameState.shares;
+                gameState.exitReason = 'Market Close';
+                gameState.isPositionOpen = false;
+            }
+            
+            gameState.isTrading = false;
+            showFinalResult();
+        }
+        
+        function updateCurrentPrice(price, time) {
+            document.getElementById('currentPrice').textContent = `₹${price.toFixed(2)}`;
+            document.getElementById('currentTime').textContent = `${time} - Live Trading`;
+        }
+        
+        function updateTradeDisplay() {
+            const currentPrice = stockData[gameState.currentCandleIndex].close;
+            
+            document.getElementById('shareCount').textContent = gameState.shares;
+            document.getElementById('entryDisplay').textContent = `₹${gameState.entryPrice.toFixed(2)}`;
+            document.getElementById('currentPriceDisplay').textContent = `₹${currentPrice.toFixed(2)}`;
+            document.getElementById('targetDisplay').textContent = `₹${gameState.targetPrice.toFixed(2)}`;
+            document.getElementById('stopLossDisplay').textContent = `₹${gameState.stopLoss.toFixed(2)}`;
+            
+            // Calculate current P&L
+            let currentPnL = 0;
+            let statusText = 'Position: Waiting for Entry';
+            
+            if (gameState.tradeExecuted && gameState.isPositionOpen) {
+                currentPnL = (currentPrice - gameState.entryPrice) * gameState.shares;
+                statusText = 'Position: Open';
+            } else if (gameState.tradeExecuted && !gameState.isPositionOpen) {
+                currentPnL = gameState.finalPnL;
+                statusText = `Position: Closed (${gameState.exitReason})`;
+            }
+            
+            // Update P&L display
+            const pnlElement = document.getElementById('pnlDisplay');
+            pnlElement.textContent = `₹${currentPnL.toFixed(2)}`;
+            
+            if (currentPnL > 0) {
+                pnlElement.className = 'pnl profit';
+            } else if (currentPnL < 0) {
+                pnlElement.className = 'pnl loss';
+            } else {
+                pnlElement.className = 'pnl neutral';
+            }
+            
+            document.getElementById('statusText').textContent = statusText;
+        }
+        
+        function showFinalResult() {
+            const resultTitle = document.getElementById('resultTitle');
+            const resultPnL = document.getElementById('resultPnL');
+            const resultDetails = document.getElementById('resultDetails');
+            
+            const pnl = gameState.finalPnL;
+            const percentage = ((pnl / gameState.investment) * 100).toFixed(2);
+            
+            if (pnl > 0) {
+                resultTitle.textContent = '🎉 Profitable Trade!';
+                resultTitle.style.color = '#4ecdc4';
+                resultPnL.textContent = `+₹${pnl.toFixed(2)}`;
+                resultPnL.className = 'result-pnl profit';
+            } else if (pnl < 0) {
+                resultTitle.textContent = '📉 Loss Incurred';
+                resultTitle.style.color = '#ff6b6b';
+                resultPnL.textContent = `-₹${Math.abs(pnl).toFixed(2)}`;
+                resultPnL.className = 'result-pnl loss';
+            } else {
+                resultTitle.textContent = '➖ Break Even';
+                resultTitle.style.color = '#ffd93d';
+                resultPnL.textContent = '₹0.00';
+                resultPnL.className = 'result-pnl neutral';
+            }
+            
+            resultDetails.innerHTML = `
+                <p><strong>Return:</strong> ${percentage}%</p>
+                <p><strong>Exit Reason:</strong> ${gameState.exitReason}</p>
+                <p><strong>Shares Traded:</strong> ${gameState.shares}</p>
+                <p><strong>Entry Price:</strong> ₹${gameState.entryPrice.toFixed(2)}</p>
+                <p><strong>Exit Price:</strong> ₹${(gameState.entryPrice + (pnl / gameState.shares)).toFixed(2)}</p>
+            `;
+            
+            document.getElementById('finalResult').style.display = 'block';
+        }
+        
+        function closeResult() {
+            document.getElementById('finalResult').style.display = 'none';
+        }
+        
+        function resetGame() {
+            // Clear any running simulation
+            if (gameState.intervalId) {
+                clearInterval(gameState.intervalId);
+                gameState.intervalId = null;
+            }
+            
+            // Reset game state
+            gameState = {
+                currentCandleIndex: 11, // Start at 12:00 PM
+                investment: 0,
+                entryPrice: 0,
+                targetPrice: 0,
+                stopLoss: 0,
+                shares: 0,
+                isTrading: false,
+                isPositionOpen: false,
+                finalPnL: 0,
+                simulationSpeed: 500,
+                isPaused: false,
+                tradeExecuted: false,
+                exitReason: '',
+                intervalId: null,
+                tradeEndIndex: -1
+            };
+            
+            // Reset UI
+            document.getElementById('investBtn').disabled = false;
+            document.getElementById('tradeStatus').style.display = 'none';
+            document.getElementById('speedControls').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'none';
+            document.getElementById('finalResult').style.display = 'none';
+            document.getElementById('currentPrice').textContent = '₹1204.65';
+            document.getElementById('currentTime').textContent = '12:00 PM - Ready to Trade';
+            
+            // Redraw chart
+            drawChart();
+        }
+        
+        function pauseSimulation() {
+            gameState.isPaused = !gameState.isPaused;
+            const pauseBtn = document.getElementById('pauseBtn');
+            
+            if (gameState.isPaused) {
+                pauseBtn.textContent = '▶️ Resume';
+            } else {
+                pauseBtn.textContent = '⏸️ Pause';
+            }
+        }
+        
+        function setSpeed(speed) {
+            gameState.simulationSpeed = speed;
+            
+            // Update active speed button
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Restart simulation with new speed if currently running
+            if (gameState.isTrading && gameState.intervalId) {
+                startSimulation();
+            }
+        }
+        
+        // Mouse interaction for tooltip
+        canvas.addEventListener('mousemove', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            // Find nearest data point
+            let nearestIndex = -1;
+            let minDistance = Infinity;
+            
+            for (let i = 0; i <= gameState.currentCandleIndex; i++) {
+                const x = indexToX(i);
+                const distance = Math.abs(mouseX - x);
+                if (distance < minDistance && distance < 20) {
+                    minDistance = distance;
+                    nearestIndex = i;
+                }
+            }
+            
+            if (nearestIndex >= 0) {
+                const data = stockData[nearestIndex];
+                tooltip.style.display = 'block';
+                tooltip.style.left = (e.clientX + 10) + 'px';
+                tooltip.style.top = (e.clientY - 10) + 'px';
+                tooltip.innerHTML = `
+                    <strong>${data.time}</strong><br>
+                    Open: ₹${data.open}<br>
+                    High: ₹${data.high}<br>
+                    Low: ₹${data.low}<br>
+                    Close: ₹${data.close}<br>
+                    Volume: ${data.volume.toLocaleString()}
+                `;
+            } else {
+                tooltip.style.display = 'none';
+            }
+        });
+        
+        canvas.addEventListener('mouseleave', function() {
+            tooltip.style.display = 'none';
+        });
+        
+        // Initialize the application
+        window.addEventListener('load', function() {
+            populateVideoList();
+            drawChart();
+        });
+        
+        // Close modal when clicking outside
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoModal();
+            }
+        });
+        
+        // Initialize
+        populateVideoList();
+        drawChart();
+    </script>
+</body>
+</html>

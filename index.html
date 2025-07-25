@@ -1,0 +1,1900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Academy - Learn & Practice</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            background-size: 300% 300%;
+            animation: gradient 3s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .video-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+        
+        .video-section h3 {
+            color: #ff6b6b;
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: #1a1a2e;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .video-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            position: relative;
+        }
+        
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 107, 107, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .play-button:hover {
+            background: rgba(255, 107, 107, 1);
+            transform: scale(1.1);
+        }
+        
+        .play-button::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 20px solid white;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 4px;
+        }
+        
+        .video-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4ecdc4;
+            margin-bottom: 10px;
+        }
+        
+        .video-description {
+            font-size: 13px;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            max-height: 80px;
+            overflow-y: auto;
+        }
+        
+        .video-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+        }
+        
+        .video-item {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .video-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #4ecdc4;
+        }
+        
+        .video-item.active {
+            background: rgba(78, 205, 196, 0.2);
+            border-color: #4ecdc4;
+        }
+        
+        .video-item-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #96ceb4;
+            margin-bottom: 4px;
+        }
+        
+        .video-item-duration {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .pattern-badge {
+            display: inline-block;
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+        
+        .chart-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .chart-wrapper {
+            position: relative;
+            height: 500px;
+        }
+        
+        #stockChart {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: #1a1a2e;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .trading-panel {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: fit-content;
+        }
+        
+        .trading-panel h3 {
+            color: #4ecdc4;
+            margin-top: 0;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #96ceb4;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #4ecdc4;
+        }
+        
+        .current-price {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .current-price .price {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+        
+        .current-price .time {
+            font-size: 14px;
+            color: #96ceb4;
+            margin-top: 5px;
+        }
+        
+        .invest-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .invest-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .invest-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .trade-status {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .pnl {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .profit {
+            color: #4ecdc4;
+        }
+        
+        .loss {
+            color: #ff6b6b;
+        }
+        
+        .neutral {
+            color: #ffd93d;
+        }
+        
+        .game-controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .control-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #4ecdc4;
+        }
+        
+        .pattern-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .pattern-info h4 {
+            color: #4ecdc4;
+            margin-top: 0;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            pointer-events: none;
+            font-size: 12px;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: none;
+        }
+        
+        .trade-summary {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 14px;
+        }
+        
+        .simulation-speed {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+        
+        .speed-btn {
+            padding: 8px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .speed-btn.active {
+            background: #4ecdc4;
+            border-color: #4ecdc4;
+        }
+        
+        .final-result {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            border: 2px solid #4ecdc4;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            z-index: 10000;
+            min-width: 400px;
+            display: none;
+        }
+        
+        .result-title {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        
+        .result-pnl {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .progress-indicator {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .progress-step {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin: 0 5px;
+            line-height: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-step.completed {
+            background: #4ecdc4;
+            border-color: #4ecdc4;
+        }
+        
+        .progress-step.active {
+            background: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        
+        .video-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            z-index: 20000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .video-modal-content {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+        
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .close-modal {
+            background: #ff6b6b;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .video-iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            border-radius: 10px;
+            background: #000;
+            object-fit: contain;
+        }
+
+        @media (max-width: 1400px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .video-section {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Trading Academy - Learn & Practice</h1>
+            <p style="font-size: 1.2em; opacity: 0.9;">Watch videos to learn, then practice on the live chart!</p>
+        </div>
+        
+        <div class="progress-indicator">
+            <span class="progress-step completed">1</span>
+            <span style="color: #96ceb4;">Watch</span>
+            <span class="progress-step active">2</span>
+            <span style="color: #96ceb4;">Practice</span>
+            <span class="progress-step">3</span>
+            <span style="color: #96ceb4;">Master</span>
+        </div>
+        
+        <div class="main-layout">
+            <div class="video-section">
+                <h3>📹 Learn Trading Patterns</h3>
+                
+                <div class="video-container" onclick="openVideoModal()">
+                    <div class="video-placeholder">
+                        <div class="play-button"></div>
+                    </div>
+                </div>
+                
+                <div class="video-title" id="currentVideoTitle">Double Bottom Pattern Basics</div>
+                <div class="video-description" id="currentVideoDescription">
+                    Learn to identify the double bottom reversal pattern, one of the most reliable bullish patterns in technical analysis. This video covers pattern recognition, volume confirmation, and entry/exit strategies.
+                </div>
+                
+                <div class="video-list" id="videoList">
+                    <!-- Video items will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="chart-section">
+                <div class="chart-wrapper">
+                    <canvas id="stockChart" width="900" height="500"></canvas>
+                    <div id="tooltip" class="tooltip"></div>
+                </div>
+            </div>
+            
+            <div class="trading-panel">
+                <h3>🎯 Trading Setup</h3>
+                
+                <div class="current-price">
+                    <div class="price" id="currentPrice">₹1204.65</div>
+                    <div class="time" id="currentTime">12:00 PM - Ready to Trade</div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="investment">Investment Amount (₹)</label>
+                    <input type="number" id="investment" placeholder="Enter amount (e.g., 50000)" min="1000" max="1000000" step="1000" value="50000">
+                </div>
+                
+                <div class="input-group">
+                    <label for="entryPrice">Entry Price (₹)</label>
+                    <input type="number" id="entryPrice" placeholder="Entry price" step="0.01" value="1240">
+                </div>
+                
+                <div class="input-group">
+                    <label for="targetPrice">Target Price (₹)</label>
+                    <input type="number" id="targetPrice" placeholder="Target price" step="0.01" value="1278">
+                </div>
+                
+                <div class="input-group">
+                    <label for="stopLoss">Stop Loss (₹)</label>
+                    <input type="number" id="stopLoss" placeholder="Stop loss price" step="0.01" value="1200">
+                </div>
+                
+                <button class="invest-btn" id="investBtn" onclick="startTrade()">
+                    🚀 INVEST & START SIMULATION
+                </button>
+                
+                <div class="simulation-speed" id="speedControls" style="display: none;">
+                    <div class="speed-btn active" onclick="setSpeed(500)">1x</div>
+                    <div class="speed-btn" onclick="setSpeed(250)">2x</div>
+                    <div class="speed-btn" onclick="setSpeed(100)">5x</div>
+                    <div class="speed-btn" onclick="setSpeed(50)">10x</div>
+                </div>
+                
+                <div class="trade-status" id="tradeStatus" style="display: none;">
+                    <h4>Trade Status</h4>
+                    <div class="pnl" id="pnlDisplay">₹0.00</div>
+                    <div id="statusText">Position: Waiting for Entry</div>
+                    
+                    <div class="trade-summary">
+                        <div class="summary-row">
+                            <span>Shares:</span>
+                            <span id="shareCount">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Entry:</span>
+                            <span id="entryDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Current:</span>
+                            <span id="currentPriceDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Target:</span>
+                            <span id="targetDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Stop Loss:</span>
+                            <span id="stopLossDisplay">₹0.00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-controls">
+                    <button class="control-btn" onclick="resetGame()">🔄 Reset</button>
+                    <button class="control-btn" onclick="pauseSimulation()" id="pauseBtn" style="display: none;">⏸️ Pause</button>
+                </div>
+                
+                <div class="pattern-info" id="patternInfo">
+                    <h4>📈 Pattern Analysis</h4>
+                    <div id="patternDetails">
+                        <p><strong>Double Bottom Identified:</strong></p>
+                        <p>• First Bottom: ₹1201.98 (10:30)</p>
+                        <p>• Second Bottom: ₹1204.65 (11:45)</p>
+                        <p>• Neckline: ₹1239.76</p>
+                        <p>• Suggested Target: ₹1277.54</p>
+                        <p style="color: #ffd93d; margin-top: 15px;"><strong>💡 Tip:</strong> Consider buying above neckline break with volume confirmation!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="final-result" id="finalResult">
+            <div class="result-title" id="resultTitle">Trade Complete!</div>
+            <div class="result-pnl" id="resultPnL">₹0.00</div>
+            <div id="resultDetails"></div>
+            <button class="control-btn" onclick="closeResult()" style="margin-top: 20px; width: 200px;">Continue</button>
+        </div>
+        
+        <div class="video-modal" id="videoModal">
+            <div class="video-modal-content">
+                <div class="video-modal-header">
+                    <h3 id="modalVideoTitle">Video Title</h3>
+                    <button class="close-modal" onclick="closeVideoModal()">✕ Close</button>
+                </div>
+                <div id="videoPlayer">
+                    <div class="video-iframe" style="display: flex; align-items: center; justify-content: center; color: #96ceb4;">
+                        🎬 Video player will be embedded here
+                        <br><br>
+                        <small>In a real implementation, you would embed actual video content using:<br>
+                        • YouTube iframe<br>
+                        • Vimeo player<br>
+                        • Custom video player<br>
+                        • Educational platform integration</small>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <h4>Key Takeaways:</h4>
+                    <div id="videoTakeaways">
+                        <p>• Identify double bottom pattern formation</p>
+                        <p>• Wait for neckline breakout with volume</p>
+                        <p>• Set proper stop loss below second bottom</p>
+                        <p>• Calculate target using pattern height</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Chart patterns data library
+        const chartPatterns = {
+            'double-bottom': {
+                name: 'Double Bottom',
+                data: [
+                    { time: "9:15", open: 1250, high: 1250.98, low: 1236.97, close: 1239.6, volume: 54903 },
+                    { time: "9:30", open: 1239.6, high: 1242.56, low: 1230.71, close: 1232.76, volume: 53924 },
+                    { time: "9:45", open: 1232.76, high: 1238.42, low: 1217.61, close: 1221.77, volume: 54790 },
+                    { time: "10:00", open: 1221.77, high: 1222.52, low: 1209.73, close: 1213.04, volume: 62966 },
+                    { time: "10:15", open: 1213.04, high: 1219.57, low: 1203.33, close: 1205.49, volume: 58322 },
+                    { time: "10:30", open: 1205.49, high: 1207.83, low: 1201.98, close: 1204.83, volume: 66738 },
+                    { time: "10:45", open: 1204.83, high: 1223.81, low: 1202.67, close: 1220.91, volume: 43629 },
+                    { time: "11:00", open: 1220.91, high: 1239.76, low: 1218.97, close: 1233.8, volume: 43717 },
+                    { time: "11:15", open: 1233.8, high: 1234.69, low: 1213.65, close: 1218.32, volume: 60344 },
+                    { time: "11:30", open: 1218.32, high: 1220.54, low: 1205.08, close: 1206.97, volume: 58751 },
+                    { time: "11:45", open: 1206.97, high: 1207.62, low: 1204.65, close: 1204.65, volume: 57610 },
+                    { time: "12:00", open: 1204.65, high: 1218.35, low: 1203.61, close: 1216.44, volume: 68853 },
+                    { time: "12:15", open: 1216.44, high: 1224.99, low: 1215.07, close: 1221.15, volume: 61747 },
+                    { time: "12:30", open: 1221.15, high: 1231.96, low: 1219.11, close: 1225.12, volume: 36100 },
+                    { time: "12:45", open: 1225.12, high: 1234.87, low: 1222.52, close: 1230.26, volume: 41832 },
+                    { time: "13:00", open: 1230.26, high: 1238.46, low: 1229.67, close: 1236.83, volume: 40336 },
+                    { time: "13:15", open: 1236.83, high: 1242, low: 1236.24, close: 1241.65, volume: 42236 },
+                    { time: "13:30", open: 1241.65, high: 1249.59, low: 1239.94, close: 1249.56, volume: 42337 },
+                    { time: "13:45", open: 1249.56, high: 1265.81, low: 1248, close: 1256.39, volume: 49154 },
+                    { time: "14:00", open: 1256.39, high: 1267.37, low: 1256.22, close: 1259.76, volume: 44939 },
+                    { time: "14:15", open: 1259.76, high: 1271.87, low: 1258.11, close: 1271.37, volume: 40052 },
+                    { time: "14:30", open: 1271.37, high: 1280.92, low: 1270.45, close: 1274.96, volume: 44626 },
+                    { time: "14:45", open: 1274.96, high: 1286.92, low: 1273.95, close: 1279.45, volume: 42592 },
+                    { time: "15:00", open: 1279.45, high: 1290.65, low: 1276.55, close: 1284.57, volume: 40352 },
+                    { time: "15:15", open: 1284.57, high: 1294.56, low: 1283.67, close: 1294.08, volume: 36461 },
+                    { time: "15:30", open: 1294.08, high: 1301.58, low: 1293.93, close: 1295.08, volume: 39237 }
+                ],
+                minPrice: 1190,
+                maxPrice: 1310,
+                keyLevels: {
+                    neckline: 1239.76,
+                    target: 1277.54,
+                    support1: 1201.98,
+                    support2: 1204.65
+                },
+                defaultEntry: 1240,
+                defaultTarget: 1278,
+                defaultStop: 1200,
+                startIndex: 11,
+                patternInfo: {
+                    title: "Double Bottom Pattern",
+                    details: [
+                        "• First Bottom: ₹1201.98 (10:30)",
+                        "• Second Bottom: ₹1204.65 (11:45)",
+                        "• Neckline: ₹1239.76",
+                        "• Suggested Target: ₹1277.54"
+                    ],
+                    tip: "Consider buying above neckline break with volume confirmation!"
+                }
+            },
+            'cup-handle': {
+                name: 'Cup and Handle',
+                data: [
+                    { time: "9:15", open: 150.00, high: 152.50, low: 149.80, close: 152.20, volume: 45000 },
+                    { time: "9:30", open: 152.20, high: 154.00, low: 151.90, close: 153.75, volume: 52000 },
+                    { time: "9:45", open: 153.75, high: 154.10, low: 151.20, close: 151.80, volume: 38000 },
+                    { time: "10:00", open: 151.80, high: 152.30, low: 149.50, close: 150.25, volume: 41000 },
+                    { time: "10:15", open: 150.25, high: 151.00, low: 148.20, close: 148.90, volume: 47000 },
+                    { time: "10:30", open: 148.90, high: 149.80, low: 147.10, close: 147.65, volume: 55000 },
+                    { time: "10:45", open: 147.65, high: 148.50, low: 146.80, close: 147.20, volume: 43000 },
+                    { time: "11:00", open: 147.20, high: 147.90, low: 146.50, close: 147.45, volume: 39000 },
+                    { time: "11:15", open: 147.45, high: 148.20, low: 147.00, close: 147.80, volume: 35000 },
+                    { time: "11:30", open: 147.80, high: 149.30, low: 147.60, close: 148.95, volume: 42000 },
+                    { time: "11:45", open: 148.95, high: 150.80, low: 148.70, close: 150.40, volume: 48000 },
+                    { time: "12:00", open: 150.40, high: 152.20, low: 150.10, close: 151.85, volume: 44000 },
+                    { time: "12:15", open: 151.85, high: 152.40, low: 150.80, close: 151.20, volume: 32000 },
+                    { time: "12:30", open: 151.20, high: 151.60, low: 150.20, close: 150.75, volume: 28000 },
+                    { time: "12:45", open: 150.75, high: 151.30, low: 150.40, close: 150.95, volume: 25000 },
+                    { time: "13:00", open: 150.95, high: 153.80, low: 150.90, close: 153.45, volume: 68000 },
+                    { time: "13:15", open: 153.45, high: 155.60, low: 153.20, close: 155.20, volume: 72000 },
+                    { time: "13:30", open: 155.20, high: 157.40, low: 154.90, close: 156.85, volume: 65000 },
+                    { time: "13:45", open: 156.85, high: 158.20, low: 156.50, close: 157.95, volume: 58000 },
+                    { time: "14:00", open: 157.95, high: 159.80, low: 157.70, close: 159.25, volume: 61000 },
+                    { time: "14:15", open: 159.25, high: 160.90, low: 158.80, close: 160.40, volume: 55000 },
+                    { time: "14:30", open: 160.40, high: 161.75, low: 159.95, close: 161.20, volume: 52000 },
+                    { time: "14:45", open: 161.20, high: 162.80, low: 160.90, close: 162.35, volume: 48000 },
+                    { time: "15:00", open: 162.35, high: 163.50, low: 161.80, close: 163.10, volume: 45000 },
+                    { time: "15:15", open: 163.10, high: 164.20, low: 162.75, close: 163.85, volume: 42000 },
+                    { time: "15:30", open: 163.85, high: 164.50, low: 163.20, close: 164.20, volume: 40000 }
+                ],
+                minPrice: 140,
+                maxPrice: 170,
+                keyLevels: {
+                    rim: 154.0,
+                    cupBottom: 147.2,
+                    handleLow: 150.4,
+                    breakout: 154.5
+                },
+                defaultEntry: 154.5,
+                defaultTarget: 162.0,
+                defaultStop: 150.0,
+                startIndex: 14,
+                patternInfo: {
+                    title: "Cup and Handle Pattern",
+                    details: [
+                        "• Cup Formation: 9:45 - 11:15",
+                        "• Handle Formation: 11:30 - 12:45",
+                        "• Rim Level: ₹154.00",
+                        "• Breakout Point: ₹154.50",
+                        "• Target: ₹162.00 (Cup depth projection)"
+                    ],
+                    tip: "Wait for breakout above rim with strong volume for confirmation!"
+                }
+            },
+            'rising-wedge': {
+                name: 'Rising Wedge (Bearish)',
+                data: [
+                    { time: "9:15", open: 185.00, high: 186.20, low: 184.50, close: 185.80, volume: 42000 },
+                    { time: "9:30", open: 185.80, high: 187.60, low: 185.40, close: 187.20, volume: 45000 },
+                    { time: "9:45", open: 187.20, high: 188.90, low: 186.80, close: 188.45, volume: 38000 },
+                    { time: "10:00", open: 188.45, high: 189.70, low: 187.90, close: 189.30, volume: 35000 },
+                    { time: "10:15", open: 189.30, high: 190.40, low: 188.80, close: 189.95, volume: 32000 },
+                    { time: "10:30", open: 189.95, high: 191.00, low: 189.40, close: 190.60, volume: 30000 },
+                    { time: "10:45", open: 190.60, high: 190.60, low: 190.10, close: 190.85, volume: 28000 },
+                    { time: "11:00", open: 190.85, high: 191.50, low: 190.30, close: 191.10, volume: 26000 },
+                    { time: "11:15", open: 191.10, high: 191.65, low: 190.65, close: 191.25, volume: 24000 },
+                    { time: "11:30", open: 191.25, high: 191.75, low: 190.85, close: 191.40, volume: 22000 },
+                    { time: "11:45", open: 191.40, high: 191.80, low: 191.00, close: 191.50, volume: 20000 },
+                    { time: "12:00", open: 191.50, high: 191.85, low: 191.15, close: 191.55, volume: 18000 },
+                    { time: "12:15", open: 191.55, high: 191.90, low: 191.20, close: 191.60, volume: 16000 },
+                    { time: "12:30", open: 191.60, high: 191.70, low: 189.80, close: 190.25, volume: 55000 },
+                    { time: "12:45", open: 190.25, high: 190.60, low: 188.40, close: 188.95, volume: 62000 },
+                    { time: "13:00", open: 188.95, high: 189.30, low: 187.20, close: 187.65, volume: 58000 },
+                    { time: "13:15", open: 187.65, high: 188.10, low: 186.10, close: 186.80, volume: 54000 },
+                    { time: "13:30", open: 186.80, high: 187.40, low: 185.30, close: 185.90, volume: 51000 },
+                    { time: "13:45", open: 185.90, high: 186.50, low: 184.80, close: 185.20, volume: 48000 },
+                    { time: "14:00", open: 185.20, high: 185.80, low: 183.90, close: 184.45, volume: 45000 },
+                    { time: "14:15", open: 184.45, high: 185.00, low: 183.20, close: 183.75, volume: 42000 },
+                    { time: "14:30", open: 183.75, high: 184.30, low: 182.60, close: 183.10, volume: 40000 },
+                    { time: "14:45", open: 183.10, high: 183.70, low: 181.80, close: 182.25, volume: 38000 },
+                    { time: "15:00", open: 182.25, high: 182.90, low: 181.40, close: 181.90, volume: 36000 },
+                    { time: "15:15", open: 181.90, high: 182.50, low: 180.85, close: 181.30, volume: 34000 },
+                    { time: "15:30", open: 181.30, high: 181.80, low: 180.60, close: 180.95, volume: 32000 }
+                ],
+                minPrice: 175,
+                maxPrice: 195,
+                keyLevels: {
+                    upperTrendline: 191.8,
+                    lowerTrendline: 190.0,
+                    breakdownLevel: 189.5,
+                    target: 183.0
+                },
+                defaultEntry: 189.0,
+                defaultTarget: 183.0,
+                defaultStop: 192.0,
+                startIndex: 12,
+                patternInfo: {
+                    title: "Rising Wedge Pattern (Bearish)",
+                    details: [
+                        "• Wedge Formation: 9:45 - 12:15",
+                        "• Upper Trendline: ₹191.80",
+                        "• Lower Trendline: ₹190.00",
+                        "• Breakdown at: ₹189.50",
+                        "• Target: ₹183.00 (Wedge height projection)"
+                    ],
+                    tip: "Short on breakdown below lower trendline with volume confirmation!"
+                }
+            },
+            'marubozu': {
+                name: 'Marubozu Candlestick',
+                data: [
+                    { time: "9:15", open: 245.5, high: 246.8, low: 244.2, close: 245.1, volume: 125000 },
+                    { time: "9:30", open: 245.1, high: 245.9, low: 243.5, close: 244.3, volume: 180000 },
+                    { time: "9:45", open: 244.3, high: 245.2, low: 242.8, close: 243.6, volume: 165000 },
+                    { time: "10:00", open: 243.6, high: 244.4, low: 242.1, close: 242.9, volume: 195000 },
+                    { time: "10:15", open: 242.9, high: 243.7, low: 241.5, close: 242.2, volume: 210000 },
+                    { time: "10:30", open: 242.2, high: 243.3, low: 241.8, close: 242.8, volume: 175000 },
+                    { time: "10:45", open: 242.8, high: 243.9, low: 241.9, close: 242.4, volume: 160000 },
+                    { time: "11:00", open: 242.4, high: 243.2, low: 241.6, close: 242.1, volume: 155000 },
+                    { time: "11:15", open: 242.1, high: 242.8, low: 241.3, close: 241.9, volume: 145000 },
+                    { time: "11:30", open: 241.9, high: 248.5, low: 241.9, close: 248.45, volume: 485000 },
+                    { time: "11:45", open: 248.45, high: 250.2, low: 247.8, close: 249.6, volume: 320000 },
+                    { time: "12:00", open: 249.6, high: 251.4, low: 248.9, close: 250.8, volume: 280000 },
+                    { time: "12:15", open: 250.8, high: 252.3, low: 250.1, close: 251.7, volume: 245000 },
+                    { time: "12:30", open: 251.7, high: 253.2, low: 251.2, close: 252.5, volume: 220000 },
+                    { time: "12:45", open: 252.5, high: 254.1, low: 252.0, close: 253.4, volume: 200000 },
+                    { time: "13:00", open: 253.4, high: 254.8, low: 252.9, close: 254.2, volume: 185000 },
+                    { time: "13:15", open: 254.2, high: 255.6, low: 253.7, close: 255.1, volume: 170000 },
+                    { time: "13:30", open: 255.1, high: 256.4, low: 254.5, close: 255.8, volume: 160000 },
+                    { time: "13:45", open: 255.8, high: 257.2, low: 255.3, close: 256.6, volume: 155000 },
+                    { time: "14:00", open: 256.6, high: 258.0, low: 256.1, close: 257.4, volume: 145000 },
+                    { time: "14:15", open: 257.4, high: 258.8, low: 256.9, close: 258.2, volume: 140000 },
+                    { time: "14:30", open: 258.2, high: 259.5, low: 257.7, close: 259.1, volume: 135000 },
+                    { time: "14:45", open: 259.1, high: 260.3, low: 258.6, close: 259.8, volume: 130000 },
+                    { time: "15:00", open: 259.8, high: 261.2, low: 259.3, close: 260.6, volume: 125000 },
+                    { time: "15:15", open: 260.6, high: 262.0, low: 260.1, close: 261.4, volume: 120000 },
+                    { time: "15:30", open: 261.4, high: 262.8, low: 260.9, close: 262.3, volume: 115000 }
+                ],
+                minPrice: 235,
+                maxPrice: 270,
+                keyLevels: {
+                    marubozuOpen: 241.9,
+                    marubozuClose: 248.45,
+                    resistance: 250.0,
+                    support: 240.0
+                },
+                defaultEntry: 249.0,
+                defaultTarget: 255.0,
+                defaultStop: 241.5,
+                startIndex: 9,
+                patternInfo: {
+                    title: "Bullish Marubozu Pattern",
+                    details: [
+                        "• Marubozu Formation: 11:30",
+                        "• Open: ₹241.90, Close: ₹248.45",
+                        "• No Upper/Lower Shadows",
+                        "• Strong Bullish Momentum",
+                        "• Volume Spike: 485,000 shares"
+                    ],
+                    tip: "Strong bullish signal - consider buying on next candle confirmation!"
+                }
+            },
+            'descending-triangle': {
+                name: 'Descending Triangle',
+                data: [
+                    { time: "9:15", open: 285.20, high: 286.50, low: 283.80, close: 284.60, volume: 145000 },
+                    { time: "9:30", open: 284.60, high: 285.40, low: 282.90, close: 283.20, volume: 165000 },
+                    { time: "9:45", open: 283.20, high: 284.10, low: 281.50, close: 282.40, volume: 180000 },
+                    { time: "10:00", open: 282.40, high: 283.60, low: 280.80, close: 281.20, volume: 195000 },
+                    { time: "10:15", open: 281.20, high: 282.80, low: 279.90, close: 280.50, volume: 155000 },
+                    { time: "10:30", open: 280.50, high: 280.80, low: 279.80, close: 280.10, volume: 140000 },
+                    { time: "10:45", open: 280.10, high: 282.20, low: 279.85, close: 281.30, volume: 160000 },
+                    { time: "11:00", open: 281.30, high: 281.60, low: 279.75, close: 280.20, volume: 135000 },
+                    { time: "11:15", open: 280.20, high: 281.50, low: 279.90, close: 280.80, volume: 150000 },
+                    { time: "11:30", open: 280.80, high: 281.00, low: 279.80, close: 280.00, volume: 125000 },
+                    { time: "11:45", open: 280.00, high: 280.90, low: 279.85, close: 280.60, volume: 130000 },
+                    { time: "12:00", open: 280.60, high: 280.70, low: 279.70, close: 279.90, volume: 140000 },
+                    { time: "12:15", open: 279.90, high: 280.40, low: 279.60, close: 280.10, volume: 145000 },
+                    { time: "12:30", open: 280.10, high: 280.20, low: 277.50, close: 278.20, volume: 285000 },
+                    { time: "12:45", open: 278.20, high: 279.10, low: 276.40, close: 277.00, volume: 245000 },
+                    { time: "13:00", open: 277.00, high: 278.20, low: 275.30, close: 275.80, volume: 220000 },
+                    { time: "13:15", open: 275.80, high: 276.90, low: 274.20, close: 274.60, volume: 200000 },
+                    { time: "13:30", open: 274.60, high: 275.40, low: 273.10, close: 273.50, volume: 185000 },
+                    { time: "13:45", open: 273.50, high: 274.30, low: 272.00, close: 272.40, volume: 175000 },
+                    { time: "14:00", open: 272.40, high: 273.20, low: 270.80, close: 271.10, volume: 165000 },
+                    { time: "14:15", open: 271.10, high: 272.00, low: 269.50, close: 270.20, volume: 155000 },
+                    { time: "14:30", open: 270.20, high: 271.10, low: 268.60, close: 269.30, volume: 145000 },
+                    { time: "14:45", open: 269.30, high: 270.20, low: 267.80, close: 268.50, volume: 140000 },
+                    { time: "15:00", open: 268.50, high: 269.40, low: 266.90, close: 267.60, volume: 135000 },
+                    { time: "15:15", open: 267.60, high: 268.50, low: 266.20, close: 266.80, volume: 130000 },
+                    { time: "15:30", open: 266.80, high: 267.40, low: 265.50, close: 266.10, volume: 125000 }
+                ],
+                minPrice: 260,
+                maxPrice: 290,
+                keyLevels: {
+                    horizontalSupport: 279.8,
+                    descendingResistance: 285.0,
+                    breakdownLevel: 279.5,
+                    target: 272.0
+                },
+                defaultEntry: 279.0,
+                defaultTarget: 272.0,
+                defaultStop: 281.5,
+                startIndex: 12,
+                patternInfo: {
+                    title: "Descending Triangle Pattern",
+                    details: [
+                        "• Triangle Formation: 10:15 - 12:15",
+                        "• Horizontal Support: ₹279.80",
+                        "• Descending Resistance Line",
+                        "• Breakdown at: ₹279.50",
+                        "• Target: ₹272.00 (Triangle height projection)"
+                    ],
+                    tip: "Short on breakdown below support with increased volume!"
+                }
+            },
+            'five-min-double-bottom': {
+                name: '5-Min Double Bottom',
+                data: [
+                    { time: "9:15", open: 100, high: 100.29, low: 99.31, close: 99.62, volume: 4119 },
+                    { time: "9:20", open: 99.62, high: 99.65, low: 98.9, close: 99.04, volume: 1956 },
+                    { time: "9:25", open: 99.04, high: 99.09, low: 98.18, close: 98.53, volume: 1602 },
+                    { time: "9:30", open: 98.53, high: 98.78, low: 97.94, close: 98.07, volume: 4537 },
+                    { time: "9:35", open: 98.07, high: 98.1, low: 97.65, close: 97.77, volume: 2626 },
+                    { time: "9:40", open: 97.77, high: 97.9, low: 97.17, close: 97.46, volume: 2503 },
+                    { time: "9:45", open: 97.46, high: 97.72, low: 96.84, close: 97.19, volume: 2414 },
+                    { time: "9:50", open: 97.19, high: 97.38, low: 96.59, close: 96.64, volume: 2071 },
+                    { time: "9:55", open: 96.64, high: 96.93, low: 95.88, close: 96.18, volume: 4516 },
+                    { time: "10:00", open: 96.18, high: 96.4, low: 95.37, close: 95.68, volume: 1919 },
+                    { time: "10:05", open: 95.68, high: 95.88, low: 95.21, close: 95.42, volume: 4271 },
+                    { time: "10:10", open: 95.42, high: 95.59, low: 94.82, close: 94.83, volume: 4533 },
+                    { time: "10:15", open: 94.83, high: 94.87, low: 94.28, close: 94.29, volume: 3733 },
+                    { time: "10:20", open: 94.29, high: 94.54, low: 93.84, close: 93.97, volume: 1856 },
+                    { time: "10:25", open: 93.97, high: 94.17, low: 93.29, close: 93.65, volume: 3918 },
+                    { time: "10:30", open: 93.65, high: 93.75, low: 93.18, close: 93.34, volume: 3228 },
+                    { time: "10:35", open: 93.34, high: 93.64, low: 92.89, close: 92.98, volume: 1630 },
+                    { time: "10:40", open: 92.98, high: 93.01, low: 92.43, close: 92.55, volume: 1622 },
+                    { time: "10:45", open: 92.55, high: 92.61, low: 91.78, close: 92.15, volume: 1883 },
+                    { time: "10:50", open: 92.15, high: 92.47, low: 91.55, close: 91.8, volume: 2395 },
+                    { time: "10:55", open: 91.8, high: 92.15, low: 91.01, close: 91.33, volume: 5952 },
+                    { time: "11:00", open: 91.33, high: 91.4, low: 90.67, close: 91.03, volume: 7069 },
+                    { time: "11:05", open: 91.03, high: 91.25, low: 90.65, close: 90.97, volume: 7465 },
+                    { time: "11:10", open: 90.97, high: 91.33, low: 90.8, close: 90.93, volume: 5108 },
+                    { time: "11:15", open: 90.93, high: 90.97, low: 90.83, close: 90.92, volume: 7298 },
+                    { time: "11:20", open: 90.92, high: 91.17, low: 90.59, close: 91, volume: 5814 },
+                    { time: "11:25", open: 91, high: 91.34, low: 90.91, close: 90.91, volume: 7932 },
+                    { time: "11:30", open: 90.91, high: 91.64, low: 90.74, close: 91.44, volume: 7661 },
+                    { time: "11:35", open: 91.44, high: 92.09, low: 91.39, close: 92, volume: 7872 },
+                    { time: "11:40", open: 92, high: 92.51, low: 91.62, close: 92.37, volume: 7232 },
+                    { time: "11:45", open: 92.37, high: 92.5, low: 91.65, close: 91.86, volume: 6718 },
+                    { time: "11:50", open: 91.86, high: 92.14, low: 91.32, close: 91.47, volume: 5902 },
+                    { time: "11:55", open: 91.47, high: 91.86, low: 90.73, close: 91.11, volume: 6839 },
+                    { time: "12:00", open: 91.11, high: 91.21, low: 90.32, close: 90.52, volume: 7413 },
+                    { time: "12:05", open: 90.52, high: 91.33, low: 90.41, close: 91.21, volume: 6139 },
+                    { time: "12:10", open: 91.21, high: 91.85, low: 90.97, close: 91.84, volume: 4815 },
+                    { time: "12:15", open: 91.84, high: 92.5, low: 91.82, close: 92.3, volume: 1526 },
+                    { time: "12:20", open: 92.3, high: 92.79, low: 91.94, close: 92.68, volume: 4608 },
+                    { time: "12:25", open: 92.68, high: 93.37, low: 92.62, close: 93.27, volume: 4800 },
+                    { time: "12:30", open: 93.27, high: 93.97, low: 92.88, close: 93.77, volume: 2153 },
+                    { time: "12:35", open: 93.77, high: 94.27, low: 93.5, close: 94.17, volume: 4359 },
+                    { time: "12:40", open: 94.17, high: 94.99, low: 94.07, close: 94.69, volume: 3231 },
+                    { time: "12:45", open: 94.69, high: 95.34, low: 94.54, close: 95.05, volume: 2893 },
+                    { time: "12:50", open: 95.05, high: 95.97, low: 94.8, close: 95.72, volume: 2638 },
+                    { time: "12:55", open: 95.72, high: 96.37, low: 95.68, close: 96.16, volume: 2136 },
+                    { time: "13:00", open: 96.16, high: 97.07, low: 96.03, close: 96.74, volume: 2381 },
+                    { time: "13:05", open: 96.74, high: 97.27, low: 96.72, close: 97.2, volume: 4627 },
+                    { time: "13:10", open: 97.2, high: 97.97, low: 96.93, close: 97.73, volume: 2878 },
+                    { time: "13:15", open: 97.73, high: 98.29, low: 97.53, close: 98.28, volume: 1918 },
+                    { time: "13:20", open: 98.28, high: 98.78, low: 98.02, close: 98.69, volume: 1879 },
+                    { time: "13:25", open: 98.69, high: 99.45, low: 98.41, close: 99.38, volume: 3056 },
+                    { time: "13:30", open: 99.38, high: 100.15, low: 99.01, close: 100, volume: 1896 },
+                    { time: "13:35", open: 100, high: 100.74, low: 99.86, close: 100.68, volume: 2970 },
+                    { time: "13:40", open: 100.68, high: 101.39, low: 100.31, close: 101.34, volume: 4971 },
+                    { time: "13:45", open: 101.34, high: 102.25, low: 101.24, close: 101.9, volume: 2908 },
+                    { time: "13:50", open: 101.9, high: 102.83, low: 101.57, close: 102.57, volume: 3972 },
+                    { time: "13:55", open: 102.57, high: 103.18, low: 102.36, close: 102.96, volume: 2583 },
+                    { time: "14:00", open: 102.96, high: 103.47, low: 102.92, close: 103.37, volume: 4805 },
+                    { time: "14:05", open: 103.37, high: 104.1, low: 103.01, close: 103.74, volume: 1677 },
+                    { time: "14:10", open: 103.74, high: 104.45, low: 103.6, close: 104.2, volume: 4488 },
+                    { time: "14:15", open: 104.2, high: 104.83, low: 103.91, close: 104.69, volume: 6881 },
+                    { time: "14:20", open: 104.69, high: 105.49, low: 104.34, close: 105.13, volume: 7196 },
+                    { time: "14:25", open: 105.13, high: 106.08, low: 104.87, close: 105.77, volume: 5511 },
+                    { time: "14:30", open: 105.77, high: 106.28, low: 105.71, close: 106.25, volume: 8985 },
+                    { time: "14:35", open: 106.25, high: 107.06, low: 106.01, close: 106.7, volume: 8777 },
+                    { time: "14:40", open: 106.7, high: 107.24, low: 106.66, close: 107.24, volume: 6550 },
+                    { time: "14:45", open: 107.24, high: 107.91, low: 107.24, close: 107.64, volume: 1822 },
+                    { time: "14:50", open: 107.64, high: 108.33, low: 107.42, close: 108.27, volume: 3761 },
+                    { time: "14:55", open: 108.27, high: 108.92, low: 108.01, close: 108.64, volume: 2700 },
+                    { time: "15:00", open: 108.64, high: 109.43, low: 108.36, close: 109.34, volume: 4897 },
+                    { time: "15:05", open: 109.34, high: 110.05, low: 109.21, close: 109.96, volume: 4074 },
+                    { time: "15:10", open: 109.96, high: 110.68, low: 109.7, close: 110.38, volume: 4033 },
+                    { time: "15:15", open: 110.38, high: 111.07, low: 110.12, close: 110.73, volume: 2981 },
+                    { time: "15:20", open: 110.73, high: 111.6, low: 110.69, close: 111.37, volume: 3864 },
+                    { time: "15:25", open: 111.37, high: 112.11, low: 111.26, close: 111.96, volume: 2287 }
+                ],
+                minPrice: 88,
+                maxPrice: 115,
+                keyLevels: {
+                    firstBottom: 90.67,
+                    secondBottom: 90.32,
+                    neckline: 92.5,
+                    target: 95.0
+                },
+                defaultEntry: 92.6,
+                defaultTarget: 95.0,
+                defaultStop: 90.0,
+                startIndex: 33,
+                patternInfo: {
+                    title: "5-Minute Double Bottom",
+                    details: [
+                        "• First Bottom: ₹90.67 (11:00)",
+                        "• Second Bottom: ₹90.32 (12:00)",
+                        "• Neckline: ₹92.50",
+                        "• Target: ₹95.00",
+                        "• Intraday Pattern - Quick Moves"
+                    ],
+                    tip: "Fast-moving pattern - use tight stops and quick entries!"
+                }
+            }
+        };
+
+        // Video library data with pattern associations
+        const videoLibrary = [
+            {
+                id: 'double-bottom-basics',
+                title: 'Double Bottom Pattern Strategy',
+                duration: '8:45',
+                description: 'Learn the double bottom pattern strategy and how to identify this powerful reversal pattern in the markets. This comprehensive tutorial covers entry points, stop losses, and profit targets.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4',
+                patternType: 'double-bottom',
+                takeaways: [
+                    'Identify double bottom pattern formation',
+                    'Wait for neckline breakout confirmation',
+                    'Set proper stop loss below second bottom',
+                    'Calculate target using pattern height measurement'
+                ]
+            },
+            {
+                id: 'cup-handle-pattern',
+                title: 'Cup and Handle Trading Strategy',
+                duration: '12:30',
+                description: 'Master the cup and handle pattern - one of the most reliable bullish continuation patterns. Learn to identify the cup formation, handle consolidation, and optimal breakout entry points.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4',
+                patternType: 'cup-handle',
+                takeaways: [
+                    'Recognize cup and handle formation',
+                    'Identify proper cup depth and handle',
+                    'Wait for volume confirmation on breakout',
+                    'Calculate target using cup depth measurement'
+                ]
+            },
+            {
+                id: 'rising-wedge-pattern',
+                title: 'Rising Wedge Bearish Pattern',
+                duration: '10:20',
+                description: 'Learn to identify and trade the rising wedge pattern - a bearish reversal pattern that often signals the end of uptrends. Covers pattern recognition and short selling strategies.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4',
+                patternType: 'rising-wedge',
+                takeaways: [
+                    'Identify rising wedge characteristics',
+                    'Recognize decreasing volume pattern',
+                    'Time the breakdown for short entries',
+                    'Set appropriate risk management levels'
+                ]
+            },
+            {
+                id: 'marubozu-candlestick',
+                title: 'Marubozu Candlestick Power',
+                duration: '7:15',
+                description: 'Understanding the powerful Marubozu candlestick pattern that shows strong momentum. Learn to identify bullish and bearish Marubozu patterns and their trading implications.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4',
+                patternType: 'marubozu',
+                takeaways: [
+                    'Identify Marubozu candlestick formation',
+                    'Understand momentum significance',
+                    'Trade continuation after Marubozu',
+                    'Use volume confirmation for validation'
+                ]
+            },
+            {
+                id: 'descending-triangle',
+                title: 'Descending Triangle Breakdown',
+                duration: '11:45',
+                description: 'Learn the descending triangle pattern - a bearish continuation pattern with horizontal support and descending resistance. Master the breakdown trading strategy.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4',
+                patternType: 'descending-triangle',
+                takeaways: [
+                    'Identify descending triangle structure',
+                    'Wait for support breakdown',
+                    'Use volume confirmation for entries',
+                    'Calculate measured move targets'
+                ]
+            },
+            {
+                id: 'intraday-patterns',
+                title: '5-Minute Chart Patterns',
+                duration: '9:30',
+                description: 'Master intraday trading with 5-minute chart patterns. Learn to identify and trade quick patterns for day trading success with proper risk management.',
+                videoUrl: 'https://tmpfiles.org/dl/7082110/file_example_mp4_480_1_5mg.mp4',
+                patternType: 'five-min-double-bottom',
+                takeaways: [
+                    'Identify intraday pattern formations',
+                    'Use tight stop losses for day trading',
+                    'Quick entry and exit strategies',
+                    'Manage risk in fast-moving markets'
+                ]
+            }
+        ];
+
+        let currentVideoIndex = 0;
+        let currentPattern = chartPatterns['double-bottom'];
+        let stockData = currentPattern.data;
+
+        // Game state
+        let gameState = {
+            currentCandleIndex: currentPattern.startIndex,
+            investment: 0,
+            entryPrice: 0,
+            targetPrice: 0,
+            stopLoss: 0,
+            shares: 0,
+            isTrading: false,
+            isPositionOpen: false,
+            finalPnL: 0,
+            simulationSpeed: 500,
+            isPaused: false,
+            tradeExecuted: false,
+            exitReason: '',
+            intervalId: null,
+            tradeEndIndex: -1
+        };
+
+        // Chart setup
+        const canvas = document.getElementById('stockChart');
+        const ctx = canvas.getContext('2d');
+        const tooltip = document.getElementById('tooltip');
+        
+        // Chart dimensions and padding
+        const padding = { top: 40, right: 80, bottom: 60, left: 80 };
+        const chartWidth = canvas.width - padding.left - padding.right;
+        const chartHeight = canvas.height - padding.top - padding.bottom;
+        
+        // Video functions
+        function populateVideoList() {
+            const videoList = document.getElementById('videoList');
+            videoList.innerHTML = '';
+            
+            videoLibrary.forEach((video, index) => {
+                const videoItem = document.createElement('div');
+                videoItem.className = `video-item ${index === currentVideoIndex ? 'active' : ''}`;
+                videoItem.onclick = () => selectVideo(index);
+                
+                videoItem.innerHTML = `
+                    <div class="video-item-title">${video.title}</div>
+                    <div class="video-item-duration">${video.duration}</div>
+                    <div class="pattern-badge">${chartPatterns[video.patternType].name}</div>
+                `;
+                
+                videoList.appendChild(videoItem);
+            });
+        }
+        
+        function selectVideo(index) {
+            currentVideoIndex = index;
+            const video = videoLibrary[index];
+            
+            // Switch to the pattern associated with this video
+            currentPattern = chartPatterns[video.patternType];
+            stockData = currentPattern.data;
+            
+            // Update UI
+            document.getElementById('currentVideoTitle').textContent = video.title;
+            document.getElementById('currentVideoDescription').textContent = video.description;
+            
+            // Update pattern info
+            updatePatternInfo();
+            
+            // Reset default values for this pattern
+            updateDefaultValues();
+            
+            // Update active video in list
+            document.querySelectorAll('.video-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+            
+            // Reset and redraw chart
+            resetGame();
+        }
+        
+        function updatePatternInfo() {
+            const patternDetails = document.getElementById('patternDetails');
+            const info = currentPattern.patternInfo;
+            
+            let detailsHTML = `<p><strong>${info.title}:</strong></p>`;
+            info.details.forEach(detail => {
+                detailsHTML += `<p>${detail}</p>`;
+            });
+            detailsHTML += `<p style="color: #ffd93d; margin-top: 15px;"><strong>💡 Tip:</strong> ${info.tip}</p>`;
+            
+            patternDetails.innerHTML = detailsHTML;
+        }
+        
+        function updateDefaultValues() {
+            document.getElementById('entryPrice').value = currentPattern.defaultEntry;
+            document.getElementById('targetPrice').value = currentPattern.defaultTarget;
+            document.getElementById('stopLoss').value = currentPattern.defaultStop;
+            
+            // Update current price display
+            const startCandle = stockData[currentPattern.startIndex];
+            document.getElementById('currentPrice').textContent = `₹${startCandle.close.toFixed(2)}`;
+            document.getElementById('currentTime').textContent = `${startCandle.time} - Ready to Trade`;
+        }
+        
+        function openVideoModal() {
+            const video = videoLibrary[currentVideoIndex];
+            const modal = document.getElementById('videoModal');
+            
+            document.getElementById('modalVideoTitle').textContent = video.title;
+            
+            // Embed HTML5 video player
+            document.getElementById('videoPlayer').innerHTML = `
+                <video 
+                    class="video-iframe" 
+                    controls 
+                    preload="metadata"
+                    style="width: 100%; height: 400px; border-radius: 10px; background: #000;">
+                    <source src="${video.videoUrl}" type="video/mp4">
+                    <p style="color: #ff6b6b; text-align: center; padding: 20px;">
+                        Your browser doesn't support HTML5 video. 
+                        <a href="${video.videoUrl}" style="color: #4ecdc4;">Download the video</a> instead.
+                    </p>
+                </video>
+            `;
+            
+            // Update takeaways
+            const takeawaysHtml = video.takeaways.map(takeaway => `<p>• ${takeaway}</p>`).join('');
+            document.getElementById('videoTakeaways').innerHTML = takeawaysHtml;
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            modal.style.display = 'none';
+            
+            // Stop the video
+            const videoElement = document.querySelector('#videoPlayer video');
+            if (videoElement) {
+                videoElement.pause();
+                videoElement.currentTime = 0;
+            }
+            
+            setTimeout(() => {
+                document.getElementById('videoPlayer').innerHTML = '';
+            }, 100);
+        }
+        
+        // Utility functions
+        function priceToY(price) {
+            return padding.top + (currentPattern.maxPrice - price) / (currentPattern.maxPrice - currentPattern.minPrice) * chartHeight;
+        }
+        
+        function indexToX(index) {
+            return padding.left + (index / (stockData.length - 1)) * chartWidth;
+        }
+        
+        function drawCandlestick(ctx, x, data, width = 8) {
+            const openY = priceToY(data.open);
+            const closeY = priceToY(data.close);
+            const highY = priceToY(data.high);
+            const lowY = priceToY(data.low);
+            
+            const isBullish = data.close >= data.open;
+            const bodyTop = Math.min(openY, closeY);
+            const bodyBottom = Math.max(openY, closeY);
+            const bodyHeight = Math.abs(closeY - openY);
+            
+            // Draw wick
+            ctx.strokeStyle = isBullish ? '#4ecdc4' : '#ff6b6b';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x, highY);
+            ctx.lineTo(x, lowY);
+            ctx.stroke();
+            
+            // Draw body
+            ctx.fillStyle = isBullish ? '#4ecdc4' : '#ff6b6b';
+            if (bodyHeight < 3) {
+                // Doji - draw a line
+                ctx.strokeStyle = isBullish ? '#4ecdc4' : '#ff6b6b';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(x - width/2, openY);
+                ctx.lineTo(x + width/2, openY);
+                ctx.stroke();
+            } else {
+                ctx.fillRect(x - width/2, bodyTop, width, bodyHeight);
+            }
+        }
+        
+        function drawGrid() {
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Horizontal grid lines
+            const priceRange = currentPattern.maxPrice - currentPattern.minPrice;
+            const priceStep = priceRange > 100 ? 20 : priceRange > 50 ? 10 : 5;
+            
+            for (let price = Math.ceil(currentPattern.minPrice / priceStep) * priceStep; price <= currentPattern.maxPrice; price += priceStep) {
+                const y = priceToY(price);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, y);
+                ctx.lineTo(padding.left + chartWidth, y);
+                ctx.stroke();
+                
+                // Price labels
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '11px Arial';
+                ctx.textAlign = 'right';
+                ctx.fillText('₹' + price, padding.left - 10, y + 4);
+            }
+            
+            // Vertical grid lines
+            const timeStep = Math.max(1, Math.floor(stockData.length / 8));
+            for (let i = 0; i < stockData.length; i += timeStep) {
+                const x = indexToX(i);
+                ctx.beginPath();
+                ctx.moveTo(x, padding.top);
+                ctx.lineTo(x, padding.top + chartHeight);
+                ctx.stroke();
+                
+                // Time labels
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(stockData[i].time, x, padding.top + chartHeight + 20);
+            }
+        }
+        
+        function drawKeyLevels() {
+            const levels = currentPattern.keyLevels;
+            
+            // Draw pattern-specific key levels
+            Object.keys(levels).forEach((levelName, index) => {
+                const level = levels[levelName];
+                const colors = ['#ffd93d', '#ff9ff3', '#96ceb4', '#4ecdc4', '#ff6b6b'];
+                const color = colors[index % colors.length];
+                
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([8, 4]);
+                const levelY = priceToY(level);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, levelY);
+                ctx.lineTo(padding.left + chartWidth, levelY);
+                ctx.stroke();
+                
+                // Level label
+                ctx.fillStyle = color;
+                ctx.font = '10px Arial';
+                ctx.textAlign = 'left';
+                ctx.fillText(levelName, padding.left + 5, levelY - 5);
+            });
+            
+            ctx.setLineDash([]);
+            
+            // Draw trade levels if position is open
+            if (gameState.isPositionOpen) {
+                // Entry price
+                ctx.strokeStyle = '#96ceb4';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([2, 2]);
+                const entryY = priceToY(gameState.entryPrice);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, entryY);
+                ctx.lineTo(padding.left + chartWidth, entryY);
+                ctx.stroke();
+                
+                // Target price
+                ctx.strokeStyle = '#4ecdc4';
+                const targetY = priceToY(gameState.targetPrice);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, targetY);
+                ctx.lineTo(padding.left + chartWidth, targetY);
+                ctx.stroke();
+                
+                // Stop loss
+                ctx.strokeStyle = '#ff6b6b';
+                const stopY = priceToY(gameState.stopLoss);
+                ctx.beginPath();
+                ctx.moveTo(padding.left, stopY);
+                ctx.lineTo(padding.left + chartWidth, stopY);
+                ctx.stroke();
+                
+                ctx.setLineDash([]);
+            }
+        }
+        
+        function drawChart() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            drawGrid();
+            
+            // Draw key levels
+            drawKeyLevels();
+            
+            // Draw candlesticks up to current index
+            for (let i = 0; i <= gameState.currentCandleIndex; i++) {
+                const data = stockData[i];
+                const x = indexToX(i);
+                drawCandlestick(ctx, x, data);
+            }
+            
+            // Highlight current candle if trading
+            if (gameState.isTrading && gameState.currentCandleIndex < stockData.length - 1) {
+                const currentX = indexToX(gameState.currentCandleIndex);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.fillRect(currentX - 10, padding.top, 20, chartHeight);
+            }
+            
+            // Draw title
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${currentPattern.name} - Trading Simulation`, canvas.width / 2, 25);
+        }
+        
+        function startTrade() {
+            // Validate inputs
+            const investment = parseFloat(document.getElementById('investment').value);
+            const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+            const targetPrice = parseFloat(document.getElementById('targetPrice').value);
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+            
+            if (!investment || investment < 1000) {
+                alert('Please enter an investment amount of at least ₹1,000');
+                return;
+            }
+            
+            if (!entryPrice || !targetPrice || !stopLoss) {
+                alert('Please fill in all trading parameters');
+                return;
+            }
+            
+            // Validate based on pattern type (bullish vs bearish)
+            const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+
+            
+            // Set up trade
+            gameState.investment = investment;
+            gameState.entryPrice = entryPrice;
+            gameState.targetPrice = targetPrice;
+            gameState.stopLoss = stopLoss;
+            gameState.shares = Math.floor(investment / entryPrice);
+            gameState.isTrading = true;
+            gameState.isPositionOpen = false;
+            gameState.tradeExecuted = false;
+            gameState.currentCandleIndex = currentPattern.startIndex;
+            
+            // Update UI
+            document.getElementById('investBtn').disabled = true;
+            document.getElementById('tradeStatus').style.display = 'block';
+            document.getElementById('speedControls').style.display = 'flex';
+            document.getElementById('pauseBtn').style.display = 'block';
+            
+            updateTradeDisplay();
+            
+            // Start simulation
+            startSimulation();
+        }
+        
+        function startSimulation() {
+            if (gameState.intervalId) {
+                clearInterval(gameState.intervalId);
+            }
+            
+            gameState.intervalId = setInterval(() => {
+                if (gameState.isPaused) return;
+                
+                gameState.currentCandleIndex++;
+                
+                if (gameState.currentCandleIndex >= stockData.length) {
+                    endSimulation();
+                    return;
+                }
+                
+                const currentCandle = stockData[gameState.currentCandleIndex];
+                updateCurrentPrice(currentCandle.close, currentCandle.time);
+                
+                // Check for trade execution
+                const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+                
+                if (!gameState.tradeExecuted) {
+                    let shouldExecute = false;
+                    
+                    if (isBearishPattern) {
+                        // For bearish patterns, execute when price drops to entry level
+                        shouldExecute = currentCandle.low <= gameState.entryPrice;
+                    } else {
+                        // For bullish patterns, execute when price rises to entry level
+                        shouldExecute = currentCandle.high >= gameState.entryPrice;
+                    }
+                    
+                    if (shouldExecute) {
+                        executeEntry(currentCandle);
+                    }
+                }
+                
+                // Check for exit conditions if position is open
+                if (gameState.isPositionOpen) {
+                    checkExitConditions(currentCandle);
+                }
+                
+                drawChart();
+                updateTradeDisplay();
+                
+            }, gameState.simulationSpeed);
+        }
+        
+        function executeEntry(candle) {
+            gameState.tradeExecuted = true;
+            gameState.isPositionOpen = true;
+            
+            // Use the exact entry price or adjust based on gap
+            const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+            let actualEntry;
+            
+            if (isBearishPattern) {
+                actualEntry = Math.min(gameState.entryPrice, candle.open);
+            } else {
+                actualEntry = Math.max(gameState.entryPrice, candle.open);
+            }
+            
+            gameState.shares = Math.floor(gameState.investment / actualEntry);
+            gameState.entryPrice = actualEntry;
+            
+            updateTradeDisplay();
+        }
+        
+        function checkExitConditions(candle) {
+            let exitPrice = 0;
+            let reason = '';
+            
+            const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+            
+            if (isBearishPattern) {
+                // For short positions
+                // Check stop loss (price goes up)
+                if (candle.high >= gameState.stopLoss) {
+                    exitPrice = gameState.stopLoss;
+                    reason = 'Stop Loss Hit';
+                }
+                // Check target (price goes down)
+                else if (candle.low <= gameState.targetPrice) {
+                    exitPrice = gameState.targetPrice;
+                    reason = 'Target Achieved';
+                }
+            } else {
+                // For long positions
+                // Check stop loss (price goes down)
+                if (candle.low <= gameState.stopLoss) {
+                    exitPrice = gameState.stopLoss;
+                    reason = 'Stop Loss Hit';
+                }
+                // Check target (price goes up)
+                else if (candle.high >= gameState.targetPrice) {
+                    exitPrice = gameState.targetPrice;
+                    reason = 'Target Achieved';
+                }
+            }
+            
+            if (exitPrice > 0) {
+                executeExit(exitPrice, reason);
+            }
+        }
+        
+        function executeExit(exitPrice, reason) {
+            gameState.isPositionOpen = false;
+            
+            const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+            
+            if (isBearishPattern) {
+                // For short positions, profit when price goes down
+                gameState.finalPnL = (gameState.entryPrice - exitPrice) * gameState.shares;
+            } else {
+                // For long positions, profit when price goes up
+                gameState.finalPnL = (exitPrice - gameState.entryPrice) * gameState.shares;
+            }
+            
+            gameState.exitReason = reason;
+            gameState.tradeEndIndex = gameState.currentCandleIndex;
+            
+            updateTradeDisplay();
+        }
+        
+        function endSimulation() {
+            if (gameState.intervalId) {
+                clearInterval(gameState.intervalId);
+                gameState.intervalId = null;
+            }
+            
+            // If position is still open, close at current price
+            if (gameState.isPositionOpen) {
+                const currentCandle = stockData[stockData.length - 1];
+                const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+                
+                if (isBearishPattern) {
+                    gameState.finalPnL = (gameState.entryPrice - currentCandle.close) * gameState.shares;
+                } else {
+                    gameState.finalPnL = (currentCandle.close - gameState.entryPrice) * gameState.shares;
+                }
+                
+                gameState.exitReason = 'Market Close';
+                gameState.isPositionOpen = false;
+            }
+            
+            gameState.isTrading = false;
+            showFinalResult();
+        }
+        
+        function updateCurrentPrice(price, time) {
+            document.getElementById('currentPrice').textContent = `₹${price.toFixed(2)}`;
+            document.getElementById('currentTime').textContent = `${time} - Live Trading`;
+        }
+        
+        function updateTradeDisplay() {
+            const currentPrice = stockData[gameState.currentCandleIndex].close;
+            
+            document.getElementById('shareCount').textContent = gameState.shares;
+            document.getElementById('entryDisplay').textContent = `₹${gameState.entryPrice.toFixed(2)}`;
+            document.getElementById('currentPriceDisplay').textContent = `₹${currentPrice.toFixed(2)}`;
+            document.getElementById('targetDisplay').textContent = `₹${gameState.targetPrice.toFixed(2)}`;
+            document.getElementById('stopLossDisplay').textContent = `₹${gameState.stopLoss.toFixed(2)}`;
+            
+            // Calculate current P&L
+            let currentPnL = 0;
+            let statusText = 'Position: Waiting for Entry';
+            
+            if (gameState.tradeExecuted && gameState.isPositionOpen) {
+                const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+                
+                if (isBearishPattern) {
+                    // Short position P&L
+                    currentPnL = (gameState.entryPrice - currentPrice) * gameState.shares;
+                } else {
+                    // Long position P&L
+                    currentPnL = (currentPrice - gameState.entryPrice) * gameState.shares;
+                }
+                
+                statusText = `Position: Open (${isBearishPattern ? 'Short' : 'Long'})`;
+            } else if (gameState.tradeExecuted && !gameState.isPositionOpen) {
+                currentPnL = gameState.finalPnL;
+                statusText = `Position: Closed (${gameState.exitReason})`;
+            }
+            
+            // Update P&L display
+            const pnlElement = document.getElementById('pnlDisplay');
+            pnlElement.textContent = `₹${currentPnL.toFixed(2)}`;
+            
+            if (currentPnL > 0) {
+                pnlElement.className = 'pnl profit';
+            } else if (currentPnL < 0) {
+                pnlElement.className = 'pnl loss';
+            } else {
+                pnlElement.className = 'pnl neutral';
+            }
+            
+            document.getElementById('statusText').textContent = statusText;
+        }
+        
+        function showFinalResult() {
+            const resultTitle = document.getElementById('resultTitle');
+            const resultPnL = document.getElementById('resultPnL');
+            const resultDetails = document.getElementById('resultDetails');
+            
+            const pnl = gameState.finalPnL;
+            const percentage = ((pnl / gameState.investment) * 100).toFixed(2);
+            
+            if (pnl > 0) {
+                resultTitle.textContent = '🎉 Profitable Trade!';
+                resultTitle.style.color = '#4ecdc4';
+                resultPnL.textContent = `+₹${pnl.toFixed(2)}`;
+                resultPnL.className = 'result-pnl profit';
+            } else if (pnl < 0) {
+                resultTitle.textContent = '📉 Loss Incurred';
+                resultTitle.style.color = '#ff6b6b';
+                resultPnL.textContent = `-₹${Math.abs(pnl).toFixed(2)}`;
+                resultPnL.className = 'result-pnl loss';
+            } else {
+                resultTitle.textContent = '➖ Break Even';
+                resultTitle.style.color = '#ffd93d';
+                resultPnL.textContent = '₹0.00';
+                resultPnL.className = 'result-pnl neutral';
+            }
+            
+            let exitPrice = 0;
+            if (gameState.shares > 0) {
+                const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+                if (isBearishPattern) {
+                    exitPrice = gameState.entryPrice - (pnl / gameState.shares);
+                } else {
+                    exitPrice = gameState.entryPrice + (pnl / gameState.shares);
+                }
+            }
+            
+            resultDetails.innerHTML = `
+                <p><strong>Pattern:</strong> ${currentPattern.name}</p>
+                <p><strong>Return:</strong> ${percentage}%</p>
+                <p><strong>Exit Reason:</strong> ${gameState.exitReason}</p>
+                <p><strong>Shares Traded:</strong> ${gameState.shares}</p>
+                <p><strong>Entry Price:</strong> ₹${gameState.entryPrice.toFixed(2)}</p>
+                <p><strong>Exit Price:</strong> ₹${exitPrice.toFixed(2)}</p>
+            `;
+            
+            document.getElementById('finalResult').style.display = 'block';
+        }
+        
+        function closeResult() {
+            document.getElementById('finalResult').style.display = 'none';
+        }
+        
+        function resetGame() {
+            // Clear any running simulation
+            if (gameState.intervalId) {
+                clearInterval(gameState.intervalId);
+                gameState.intervalId = null;
+            }
+            
+            // Reset game state
+            gameState = {
+                currentCandleIndex: currentPattern.startIndex,
+                investment: 0,
+                entryPrice: 0,
+                targetPrice: 0,
+                stopLoss: 0,
+                shares: 0,
+                isTrading: false,
+                isPositionOpen: false,
+                finalPnL: 0,
+                simulationSpeed: 500,
+                isPaused: false,
+                tradeExecuted: false,
+                exitReason: '',
+                intervalId: null,
+                tradeEndIndex: -1
+            };
+            
+            // Reset UI
+            document.getElementById('investBtn').disabled = false;
+            document.getElementById('tradeStatus').style.display = 'none';
+            document.getElementById('speedControls').style.display = 'none';
+            document.getElementById('pauseBtn').style.display = 'none';
+            document.getElementById('finalResult').style.display = 'none';
+            
+            // Update current price display
+            const startCandle = stockData[currentPattern.startIndex];
+            document.getElementById('currentPrice').textContent = `₹${startCandle.close.toFixed(2)}`;
+            document.getElementById('currentTime').textContent = `${startCandle.time} - Ready to Trade`;
+            
+            // Redraw chart
+            drawChart();
+        }
+        
+        function pauseSimulation() {
+            gameState.isPaused = !gameState.isPaused;
+            const pauseBtn = document.getElementById('pauseBtn');
+            
+            if (gameState.isPaused) {
+                pauseBtn.textContent = '▶️ Resume';
+            } else {
+                pauseBtn.textContent = '⏸️ Pause';
+            }
+        }
+        
+        function setSpeed(speed) {
+            gameState.simulationSpeed = speed;
+            
+            // Update active speed button
+            document.querySelectorAll('.speed-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Restart simulation with new speed if currently running
+            if (gameState.isTrading && gameState.intervalId) {
+                startSimulation();
+            }
+        }
+        
+        // Mouse interaction for tooltip
+        canvas.addEventListener('mousemove', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left;
+            const mouseY = e.clientY - rect.top;
+            
+            // Find nearest data point
+            let nearestIndex = -1;
+            let minDistance = Infinity;
+            
+            for (let i = 0; i <= gameState.currentCandleIndex; i++) {
+                const x = indexToX(i);
+                const distance = Math.abs(mouseX - x);
+                if (distance < minDistance && distance < 20) {
+                    minDistance = distance;
+                    nearestIndex = i;
+                }
+            }
+            
+            if (nearestIndex >= 0) {
+                const data = stockData[nearestIndex];
+                tooltip.style.display = 'block';
+                tooltip.style.left = (e.clientX + 10) + 'px';
+                tooltip.style.top = (e.clientY - 10) + 'px';
+                tooltip.innerHTML = `
+                    <strong>${data.time}</strong><br>
+                    Open: ₹${data.open}<br>
+                    High: ₹${data.high}<br>
+                    Low: ₹${data.low}<br>
+                    Close: ₹${data.close}<br>
+                    Volume: ${data.volume.toLocaleString()}
+                `;
+            } else {
+                tooltip.style.display = 'none';
+            }
+        });
+        
+        canvas.addEventListener('mouseleave', function() {
+            tooltip.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideoModal();
+            }
+        });
+        
+        // Initialize the application
+        window.addEventListener('load', function() {
+            populateVideoList();
+            updatePatternInfo();
+            updateDefaultValues();
+            drawChart();
+        });
+        
+        // Initialize
+        populateVideoList();
+        updatePatternInfo();
+        updateDefaultValues();
+        drawChart();
+    </script>
+</body>
+</html>

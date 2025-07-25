@@ -561,6 +561,48 @@
                     <canvas id="stockChart" width="900" height="500"></canvas>
                     <div id="tooltip" class="tooltip"></div>
                 </div>
+                <div class="trade-status" id="tradeStatus" style="display: none;">
+                    <h4>Trade Status</h4>
+                    <div class="pnl" id="pnlDisplay">₹0.00</div>
+                    <div id="statusText">Position: Waiting for Entry</div>
+                    
+                    <div class="trade-summary">
+                        <div class="summary-row">
+                            <span>Quantity:</span>
+                            <span id="shareCount">0</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Entry:</span>
+                            <span id="entryDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Current:</span>
+                            <span id="currentPriceDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Target:</span>
+                            <span id="targetDisplay">₹0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Stop Loss:</span>
+                            <span id="stopLossDisplay">₹0.00</span>
+                        </div>
+                        <div id="strategyFeedbackContainer" style="margin-top: 16px;">
+                            <div id="strategyFeedback" style="
+                              background: #1e2a3a;
+                              border-left: 4px solid #4ecdc4;
+                              padding: 12px 16px;
+                              border-radius: 8px;
+                              margin-top: 10px;
+                              color: #ffffff;
+                              font-size: 14px;
+                              line-height: 1.6;
+                            ">
+                              <!-- Strategy feedback will go here -->
+                            </div>
+                          </div>                          
+                    </div>
+                </div>
             </div>
             
             <div class="trading-panel">
@@ -573,7 +615,7 @@
                 
                 <div class="input-group">
                     <label for="investment">Investment Amount (₹)</label>
-                    <input type="number" id="investment" placeholder="Enter amount (e.g., 50000)" min="1000" max="1000000" step="1000" value="50000">
+                    <input type="number" id="investment" placeholder="Enter amount (e.g., 50000)" min="1000" max="1000000" step="1000" value="100000"> 
                 </div>
                 
                 <div class="input-group">
@@ -612,35 +654,7 @@
                         <p style="color: #ffd93d; margin-top: 15px;"><strong>💡 Tip:</strong> Consider buying above neckline break with volume confirmation!</p>
                     </div>
                 </div>
-                
-                <div class="trade-status" id="tradeStatus" style="display: none;">
-                    <h4>Trade Status</h4>
-                    <div class="pnl" id="pnlDisplay">₹0.00</div>
-                    <div id="statusText">Position: Waiting for Entry</div>
-                    
-                    <div class="trade-summary">
-                        <div class="summary-row">
-                            <span>Shares:</span>
-                            <span id="shareCount">0</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Entry:</span>
-                            <span id="entryDisplay">₹0.00</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Current:</span>
-                            <span id="currentPriceDisplay">₹0.00</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Target:</span>
-                            <span id="targetDisplay">₹0.00</span>
-                        </div>
-                        <div class="summary-row">
-                            <span>Stop Loss:</span>
-                            <span id="stopLossDisplay">₹0.00</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- jhdbjkhabdkjbaskjbdkjasbdkjasbdkabk -->
                 
                 <div class="game-controls">
                     <button class="control-btn" onclick="resetGame()">🔄 Reset</button>
@@ -1662,6 +1676,7 @@
             
             gameState.isTrading = false;
             showFinalResult();
+            showStrategyFeedback(gameState.finalPnL);
         }
         
         function updateCurrentPrice(price, time) {
@@ -1767,53 +1782,57 @@
             resultDetails.innerHTML = detailsHTML;
             document.getElementById('finalResult').style.display = 'block';
         }
-        
-        // function showFinalResult() {
-        //     const resultTitle = document.getElementById('resultTitle');
-        //     const resultPnL = document.getElementById('resultPnL');
-        //     const resultDetails = document.getElementById('resultDetails');
+        function showStrategyFeedback(pnl) {
+            const feedbackMap = {
+                'Double Bottom': (pnl) => {
+                if (pnl > 0) return `🟢 <strong>Good Job:</strong> Entered near the second bottom and exited on breakout.<br>📈 <strong>Right:</strong> Timing and breakout confirmation.<br>💡 <strong>Tip:</strong> Use volume for validation.`;
+                if (pnl < 0) return `🔴 <strong>Oops:</strong> Entered too early or false breakout.<br>⚠️ <strong>Wrong:</strong> No confirmation.<br>💡 <strong>Tip:</strong> Wait for volume breakout.`;
+                return `⚖️ <strong>Break Even:</strong> Setup lacked momentum.<br>🧭 <strong>Tip:</strong> Manage trades better.`;
+                },
+                'Cup and Handle': (pnl) => {
+                if (pnl > 0) return `🟢 <strong>Nice Entry:</strong> Post-handle breakout captured.<br>✅ <strong>Worked:</strong> Clear breakout.<br>💡 <strong>Tip:</strong> Use trailing stop for more upside.`;
+                if (pnl < 0) return `🔴 <strong>Entry Error:</strong> Too early or no volume.<br>❌ <strong>Issue:</strong> Entered before confirmation.<br>💡 <strong>Tip:</strong> Wait for full handle.`;
+                return `⚖️ <strong>Flat:</strong> No follow-through.<br>💡 <strong>Tip:</strong> Be patient.`;
+                },
+                'Rising Wedge Bearish': (pnl) => {
+                if (pnl > 0) return `⚠️ <strong>Lucky Long:</strong> Profited despite bearish setup.<br>🚫 <strong>Warning:</strong> Against trend.<br>💡 <strong>Tip:</strong> Consider shorts after breakdown.`;
+                if (pnl < 0) return `🟢 <strong>Great Short:</strong> Breakdown worked.<br>✅ <strong>Right Call:</strong> Trend confirmed.<br>💡 <strong>Tip:</strong> Use volume confirmation.`;
+                return `⚖️ <strong>No Follow-through:</strong> Price hovered.`;
+                },
+                'Marubozu': (pnl) => {
+                if (pnl > 0) return `🚀 <strong>Momentum Win:</strong> You caught it well!<br>🟢 <strong>Right:</strong> Confirmation and entry.<br>💡 <strong>Tip:</strong> Trail stop smartly.`;
+                if (pnl < 0) return `🔴 <strong>Weak Move:</strong> No follow-up on Marubozu.<br>❌ <strong>Issue:</strong> Poor candle strength.<br>💡 <strong>Tip:</strong> Watch for volume.`;
+                return `⚖️ <strong>Flat:</strong> No real move.`;
+                },
+                'Descending Triangle': (pnl) => {
+                if (pnl > 0) return `⚠️ <strong>Atypical Win:</strong> Went against pattern and worked.<br>🚫 <strong>Note:</strong> Risky.<br>💡 <strong>Tip:</strong> Prefer breakout alignment.`;
+                if (pnl < 0) return `🟢 <strong>Well Timed:</strong> Shorted after breakdown.<br>✅ <strong>Effective:</strong> Classic strategy success.<br>💡 <strong>Tip:</strong> Watch for retest.`;
+                return `⚖️ <strong>Stalled:</strong> No clear direction.`;
+                },
+                '5-Minute Chart': (pnl) => {
+                if (pnl > 0) return `🧠 <strong>Quick Gain:</strong> Great scalp!<br>✅ <strong>Good Entry:</strong> Took opportunity.<br>💡 <strong>Tip:</strong> Always pre-define exit.`;
+                if (pnl < 0) return `❌ <strong>Noisy Trade:</strong> Caught in chop.<br>🛑 <strong>Issue:</strong> Lack of signal.<br>💡 <strong>Tip:</strong> Wait for confirmation.`;
+                return `⚖️ <strong>Flat:</strong> Watch for clearer entry next time.`;
+                }
+            };
+
+            let pattern = currentPattern?.name || 'Unknown';
+            if (pattern.includes('Double Bottom')) pattern = 'Double Bottom';
+            if (pattern.includes('Cup and Handle')) pattern = 'Cup and Handle';
+            if (pattern.includes('Rising Wedge')) pattern = 'Rising Wedge Bearish';
+            if (pattern.includes('Marubozu')) pattern = 'Marubozu';
+            if (pattern.includes('Descending Triangle')) pattern = 'Descending Triangle';
+            if (pattern.includes('5-Minute')) pattern = '5-Minute Chart';
+
+            const feedbackFn = feedbackMap[pattern];
+            const strategyFeedbackEl = document.getElementById('strategyFeedback');
+
+            strategyFeedbackEl.innerHTML = feedbackFn
+                ? `<strong style="color:#4ecdc4; font-size: 16px;">📋 Trade Feedback:</strong><br>${feedbackFn(pnl)}`
+                : `<strong>📋 Feedback:</strong> No specific feedback available.`;
             
-        //     const pnl = gameState.finalPnL;
-        //     const percentage = ((pnl / gameState.investment) * 100).toFixed(2);
-            
-        //     if (pnl > 0) {
-        //         resultTitle.textContent = '🎉 Profitable Trade!';
-        //         resultTitle.style.color = '#4ecdc4';
-        //         resultPnL.textContent = `+₹${pnl.toFixed(2)}`;
-        //         resultPnL.className = 'result-pnl profit';
-        //     } else if (pnl < 0) {
-        //         resultTitle.textContent = '📉 Loss Incurred';
-        //         resultTitle.style.color = '#ff6b6b';
-        //         resultPnL.textContent = `-₹${Math.abs(pnl).toFixed(2)}`;
-        //         resultPnL.className = 'result-pnl loss';
-        //     } else {
-        //         resultTitle.textContent = '➖ Break Even';
-        //         resultTitle.style.color = '#ffd93d';
-        //         resultPnL.textContent = '₹0.00';
-        //         resultPnL.className = 'result-pnl neutral';
-        //     }
-            
-        //     let exitPrice = 0;
-        //     if (gameState.shares > 0) {
-        //         const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
-        //         if (isBearishPattern) {
-        //             exitPrice = gameState.entryPrice - (pnl / gameState.shares);
-        //         } else {
-        //             exitPrice = gameState.entryPrice + (pnl / gameState.shares);
-        //         }
-        //     }
-            
-        //     resultDetails.innerHTML = `
-        //         <p><strong>Pattern:</strong> ${currentPattern.name}</p>
-        //         <p><strong>Return:</strong> ${percentage}%</p>
-        //         <p><strong>Exit Reason:</strong> ${gameState.exitReason}</p>
-        //         <p><strong>Shares Traded:</strong> ${gameState.shares}</p>
-        //         <p><strong>Entry Price:</strong> ₹${gameState.entryPrice.toFixed(2)}</p>
-        //         <p><strong>Exit Price:</strong> ₹${exitPrice.toFixed(2)}</p>
-        //     `;
-            
-        //     document.getElementById('finalResult').style.display = 'block';
-        // }
+        }
+
         
         function closeResult() {
             document.getElementById('finalResult').style.display = 'none';
@@ -1948,6 +1967,8 @@
         updatePatternInfo();
         updateDefaultValues();
         drawChart();
+        
+
     </script>
 </body>
 </html>

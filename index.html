@@ -1530,6 +1530,7 @@
         }
         
         function startSimulation() {
+            document.getElementById("strategyFeedback").innerHTML = "";
             if (gameState.intervalId) {
                 clearInterval(gameState.intervalId);
             }

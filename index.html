@@ -601,6 +601,17 @@
                     <div class="speed-btn" onclick="setSpeed(100)">5x</div>
                     <div class="speed-btn" onclick="setSpeed(50)">10x</div>
                 </div>
+                <div class="pattern-info" id="patternInfo">
+                    <h4>📈 Pattern Analysis</h4>
+                    <div id="patternDetails">
+                        <p><strong>Double Bottom Identified:</strong></p>
+                        <p>• First Bottom: ₹1201.98 (10:30)</p>
+                        <p>• Second Bottom: ₹1204.65 (11:45)</p>
+                        <p>• Neckline: ₹1239.76</p>
+                        <p>• Suggested Target: ₹1277.54</p>
+                        <p style="color: #ffd93d; margin-top: 15px;"><strong>💡 Tip:</strong> Consider buying above neckline break with volume confirmation!</p>
+                    </div>
+                </div>
                 
                 <div class="trade-status" id="tradeStatus" style="display: none;">
                     <h4>Trade Status</h4>
@@ -634,18 +645,6 @@
                 <div class="game-controls">
                     <button class="control-btn" onclick="resetGame()">🔄 Reset</button>
                     <button class="control-btn" onclick="pauseSimulation()" id="pauseBtn" style="display: none;">⏸️ Pause</button>
-                </div>
-                
-                <div class="pattern-info" id="patternInfo">
-                    <h4>📈 Pattern Analysis</h4>
-                    <div id="patternDetails">
-                        <p><strong>Double Bottom Identified:</strong></p>
-                        <p>• First Bottom: ₹1201.98 (10:30)</p>
-                        <p>• Second Bottom: ₹1204.65 (11:45)</p>
-                        <p>• Neckline: ₹1239.76</p>
-                        <p>• Suggested Target: ₹1277.54</p>
-                        <p style="color: #ffd93d; margin-top: 15px;"><strong>💡 Tip:</strong> Consider buying above neckline break with volume confirmation!</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1714,53 +1713,107 @@
             
             document.getElementById('statusText').textContent = statusText;
         }
-        
+
         function showFinalResult() {
             const resultTitle = document.getElementById('resultTitle');
             const resultPnL = document.getElementById('resultPnL');
             const resultDetails = document.getElementById('resultDetails');
-            
+
             const pnl = gameState.finalPnL;
             const percentage = ((pnl / gameState.investment) * 100).toFixed(2);
+
+            let detailsHTML = `<p><strong>Pattern:</strong> ${currentPattern.name}</p>`;
             
             if (pnl > 0) {
                 resultTitle.textContent = '🎉 Profitable Trade!';
                 resultTitle.style.color = '#4ecdc4';
                 resultPnL.textContent = `+₹${pnl.toFixed(2)}`;
                 resultPnL.className = 'result-pnl profit';
+                
+                const exitPrice = gameState.entryPrice + (pnl / gameState.shares);
+                detailsHTML += `
+                    <p><strong>Return:</strong> ${percentage}%</p>
+                    <p><strong>Exit Reason:</strong> ${gameState.exitReason}</p>
+                    <p><strong>Shares Traded:</strong> ${gameState.shares}</p>
+                    <p><strong>Entry Price:</strong> ₹${gameState.entryPrice.toFixed(2)}</p>
+                    <p><strong>Exit Price:</strong> ₹${exitPrice.toFixed(2)}</p>
+                `;
             } else if (pnl < 0) {
                 resultTitle.textContent = '📉 Loss Incurred';
                 resultTitle.style.color = '#ff6b6b';
                 resultPnL.textContent = `-₹${Math.abs(pnl).toFixed(2)}`;
                 resultPnL.className = 'result-pnl loss';
+
+                const exitPrice = gameState.entryPrice - (Math.abs(pnl) / gameState.shares);
+                detailsHTML += `
+                    <p><strong>Return:</strong> ${percentage}%</p>
+                    <p><strong>Exit Reason:</strong> ${gameState.exitReason}</p>
+                    <p><strong>Shares Traded:</strong> ${gameState.shares}</p>
+                    <p><strong>Entry Price:</strong> ₹${gameState.entryPrice.toFixed(2)}</p>
+                    <p><strong>Exit Price:</strong> ₹${exitPrice.toFixed(2)}</p>
+                `;
             } else {
                 resultTitle.textContent = '➖ Break Even';
                 resultTitle.style.color = '#ffd93d';
                 resultPnL.textContent = '₹0.00';
                 resultPnL.className = 'result-pnl neutral';
+
+                detailsHTML += `
+                    <p><strong>Return:</strong> 0.00%</p>
+                    <p><strong>Exit Reason:</strong> NA</p>
+                `;
             }
-            
-            let exitPrice = 0;
-            if (gameState.shares > 0) {
-                const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
-                if (isBearishPattern) {
-                    exitPrice = gameState.entryPrice - (pnl / gameState.shares);
-                } else {
-                    exitPrice = gameState.entryPrice + (pnl / gameState.shares);
-                }
-            }
-            
-            resultDetails.innerHTML = `
-                <p><strong>Pattern:</strong> ${currentPattern.name}</p>
-                <p><strong>Return:</strong> ${percentage}%</p>
-                <p><strong>Exit Reason:</strong> ${gameState.exitReason}</p>
-                <p><strong>Shares Traded:</strong> ${gameState.shares}</p>
-                <p><strong>Entry Price:</strong> ₹${gameState.entryPrice.toFixed(2)}</p>
-                <p><strong>Exit Price:</strong> ₹${exitPrice.toFixed(2)}</p>
-            `;
-            
+
+            resultDetails.innerHTML = detailsHTML;
             document.getElementById('finalResult').style.display = 'block';
         }
+        
+        // function showFinalResult() {
+        //     const resultTitle = document.getElementById('resultTitle');
+        //     const resultPnL = document.getElementById('resultPnL');
+        //     const resultDetails = document.getElementById('resultDetails');
+            
+        //     const pnl = gameState.finalPnL;
+        //     const percentage = ((pnl / gameState.investment) * 100).toFixed(2);
+            
+        //     if (pnl > 0) {
+        //         resultTitle.textContent = '🎉 Profitable Trade!';
+        //         resultTitle.style.color = '#4ecdc4';
+        //         resultPnL.textContent = `+₹${pnl.toFixed(2)}`;
+        //         resultPnL.className = 'result-pnl profit';
+        //     } else if (pnl < 0) {
+        //         resultTitle.textContent = '📉 Loss Incurred';
+        //         resultTitle.style.color = '#ff6b6b';
+        //         resultPnL.textContent = `-₹${Math.abs(pnl).toFixed(2)}`;
+        //         resultPnL.className = 'result-pnl loss';
+        //     } else {
+        //         resultTitle.textContent = '➖ Break Even';
+        //         resultTitle.style.color = '#ffd93d';
+        //         resultPnL.textContent = '₹0.00';
+        //         resultPnL.className = 'result-pnl neutral';
+        //     }
+            
+        //     let exitPrice = 0;
+        //     if (gameState.shares > 0) {
+        //         const isBearishPattern = currentPattern.name.includes('Wedge') || currentPattern.name.includes('Triangle');
+        //         if (isBearishPattern) {
+        //             exitPrice = gameState.entryPrice - (pnl / gameState.shares);
+        //         } else {
+        //             exitPrice = gameState.entryPrice + (pnl / gameState.shares);
+        //         }
+        //     }
+            
+        //     resultDetails.innerHTML = `
+        //         <p><strong>Pattern:</strong> ${currentPattern.name}</p>
+        //         <p><strong>Return:</strong> ${percentage}%</p>
+        //         <p><strong>Exit Reason:</strong> ${gameState.exitReason}</p>
+        //         <p><strong>Shares Traded:</strong> ${gameState.shares}</p>
+        //         <p><strong>Entry Price:</strong> ₹${gameState.entryPrice.toFixed(2)}</p>
+        //         <p><strong>Exit Price:</strong> ₹${exitPrice.toFixed(2)}</p>
+        //     `;
+            
+        //     document.getElementById('finalResult').style.display = 'block';
+        // }
         
         function closeResult() {
             document.getElementById('finalResult').style.display = 'none';
